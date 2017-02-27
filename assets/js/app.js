@@ -46,6 +46,15 @@ class App extends React.Component {
                 ? (this.state.people.push([key]), groups.push(currentGroup))
                 : this.state.people[groupIndex].push(key);
         }
+        if(!search){
+            this.sortByAlphabet();
+        }
+    }
+
+    sortByAlphabet(){
+        this.state.people.sort(function(prev, next){
+            return prev[0].group > next[0].group ? 1 : prev[0].group < next[0].group ? -1 : 0;
+        })
     }
 
     handleSearch(value){

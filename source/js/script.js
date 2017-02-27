@@ -22173,6 +22173,17 @@ var App = function (_React$Component2) {
                     }
                 }
             }
+
+            if (!search) {
+                this.sortByAlphabet();
+            }
+        }
+    }, {
+        key: 'sortByAlphabet',
+        value: function sortByAlphabet() {
+            this.state.people.sort(function (prev, next) {
+                return prev[0].group > next[0].group ? 1 : prev[0].group < next[0].group ? -1 : 0;
+            });
         }
     }, {
         key: 'handleSearch',
