@@ -22110,6 +22110,7 @@ var SearchBar = function (_React$Component) {
                 null,
                 'Search:',
                 _react2.default.createElement('input', { type: 'text', name: 'search',
+                    className: 'search__input',
                     ref: function ref(input) {
                         return _this2.searchText = input;
                     },
@@ -22197,10 +22198,30 @@ var App = function (_React$Component2) {
             return _react2.default.createElement(
                 'div',
                 null,
-                _react2.default.createElement(SearchBar, { onUserChange: this.handleSearch, value: this.state }),
-                this.state.people.map(function (value, index) {
-                    return _react2.default.createElement(_list2.default, { key: "list-" + index, value: value });
-                })
+                _react2.default.createElement(
+                    'header',
+                    null,
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'container' },
+                        _react2.default.createElement(
+                            'div',
+                            { className: 'search' },
+                            _react2.default.createElement(SearchBar, { onUserChange: this.handleSearch, value: this.state })
+                        )
+                    )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'main' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'container' },
+                        this.state.people.map(function (value, index) {
+                            return _react2.default.createElement(_list2.default, { key: "list-" + index, value: value });
+                        })
+                    )
+                )
             );
         }
     }]);

@@ -9,6 +9,7 @@ class SearchBar extends React.Component {
             <label>
                 Search:
                 <input type="text" name="search"
+                       className="search__input"
                        ref={(input) => this.searchText = input}
                        onChange = {(e) => this.props.onUserChange(this.searchText.value)}
                        value={this.props.value.search}/>
@@ -65,10 +66,21 @@ class App extends React.Component {
         this.sortData(this.state.search);
         return (
             <div>
-                <SearchBar onUserChange={this.handleSearch} value={this.state}/>
-                {this.state.people.map((value, index) =>
-                    <CreateList key={"list-" + index} value={value}/>
-                )}
+                <header>
+                    <div className="container">
+                        <div className="search">
+                            <SearchBar onUserChange={this.handleSearch} value={this.state}/>
+                        </div>
+                    </div>
+                </header>
+                <div className="main">
+                    <div className="container">
+                        {this.state.people.map((value, index) =>
+                            <CreateList key={"list-" + index} value={value}/>
+                        )}
+                    </div>
+                </div>
+
             </div>
         )
     }
