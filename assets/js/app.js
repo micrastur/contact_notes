@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {contacts} from "./data";
 import CreateList from "./list";
+import "../css/style.css";
 
 class SearchBar extends React.Component {
     render(){
