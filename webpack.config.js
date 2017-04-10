@@ -1,5 +1,9 @@
+"use strict";
+
 let environment = process.env.NODE_ENV || 'dev',
     extractTextPlugin = require('extract-text-webpack-plugin');
+
+process.noDeprecation = true;
 
 module.exports = {
     context: __dirname + '/assets/js',
