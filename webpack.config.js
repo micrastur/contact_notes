@@ -10,7 +10,7 @@ module.exports = {
     entry: './app',
     output: {
         path: __dirname + '/source',
-        filename: '/js/[name].js',
+        filename: 'js/[name].js',
         library: '[name]'
     },
     watch: environment === 'dev',
@@ -27,11 +27,21 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                loader: extractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader' }),
+                loader: extractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader' })
+            },
+            {
+                test: /\.(jpe|jpg|woff|woff2|eot|ttf|svg)(\?.*$|$)/,
+                include: /\/node_modules\//,
+                loader: 'file-loader?name=[1]&regExp=node_modules/(.*)'
+            },
+            {
+                test: /\.(jpe|jpg|woff|woff2|eot|ttf|svg)(\?.*$|$)/,
+                exclude: /\/node_modules\//,
+                loader: 'file-loader?name=[path][name].[ext]'
             }
         ]
     },
     plugins: [
-        new extractTextPlugin('/css/[name].css')
+        new extractTextPlugin('./css/[name].css')
     ]
 };
