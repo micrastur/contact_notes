@@ -9,7 +9,8 @@ module.exports = {
     context: __dirname + '/assets/js',
     entry: './app',
     output: {
-        path: __dirname + '/source',
+        path: __dirname + '/source/',
+        publicPath: '/contact_notes/source/',
         filename: 'js/[name].js',
         library: '[name]'
     },
@@ -27,7 +28,7 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                loader: extractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader' })
+                loader: extractTextPlugin.extract({use: 'css-loader?resolve url' })
             },
             {
                 test: /\.(jpe|jpg|woff|woff2|eot|ttf|svg)(\?.*$|$)/,
@@ -42,6 +43,6 @@ module.exports = {
         ]
     },
     plugins: [
-        new extractTextPlugin('./css/[name].css')
+        new extractTextPlugin('/css/[name].css')
     ]
 };
