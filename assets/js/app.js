@@ -7,14 +7,28 @@ import "../css/style.css";
 class SearchBar extends React.Component {
     render(){
         return (
-            <label>
-                Search:
-                <input type="text" name="search"
-                       className="search__input"
-                       ref={(input) => this.searchText = input}
-                       onChange = {(e) => this.props.onUserChange(this.searchText.value)}
-                       value={this.props.value.search}/>
-            </label>
+            <div className="search">
+                <label>
+                    Search:
+                    <input type="text" name="search"
+                           className="search__input"
+                           ref={(input) => this.searchText = input}
+                           onChange = {(e) => this.props.onUserChange(this.searchText.value)}
+                           value={this.props.value.search}/>
+                </label>
+            </div>
+        )
+    }
+}
+
+class Filter extends React.Component {
+    render(){
+        return (
+            <div className="filter">
+                <div className="filterBtn">
+                    <i className="fa fa-filter" aria-hidden="true"></i>
+                </div>
+            </div>
         )
     }
 }
@@ -69,9 +83,8 @@ class App extends React.Component {
             <div>
                 <header>
                     <div className="container">
-                        <div className="search">
-                            <SearchBar onUserChange={this.handleSearch} value={this.state}/>
-                        </div>
+                        <SearchBar onUserChange={this.handleSearch} value={this.state}/>
+                        <Filter />
                     </div>
                 </header>
                 <div className="main">
