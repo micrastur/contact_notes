@@ -11,6 +11,10 @@
     margin: 0 auto;
 }
 
+.hidden {
+    display: none;
+}
+
 body {
     margin: 0;
 }
@@ -34,3 +38,4 @@ header {
     font: 500 15px Helvetica, sans-serif;
     padding: 2px 10px;
 }
+
