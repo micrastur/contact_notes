@@ -10,10 +10,10 @@ class SearchBar extends React.Component {
             <div className="search">
                 <label>
                     Search:
-                    <input type="text" name="search"
+                    <input type="text" name="search" id="search"
                            className="search__input"
                            ref={(input) => this.searchText = input}
-                           onChange = {(e) => this.props.onUserChange(this.searchText.value)}
+                           onChange = {(e) => this.props.onUserChange('search', this.searchText.value)}
                            value={this.props.value.search}/>
                 </label>
             </div>
@@ -23,12 +23,33 @@ class SearchBar extends React.Component {
 
 class Filter extends React.Component {
     render(){
+        console.log();
         return (
             <div className="filter">
-                <div className="filterBtn">
+                <div className="filterBtn" data-category="filter" onClick = {(e) =>  this.props.onUserClick(!this.props.value)}>
                     <i className="fa fa-filter" aria-hidden="true"></i>
                 </div>
+                <div className={this.props.value ? "active" : "hidden"}>
+                    <h3>Sort By:</h3>
+                    <div className="filterCategory">
+                        <span className="ageCategory">
+                            <i className="fa fa-sort-numeric-asc" aria-hidden="true"></i> Age
+                        </span>
+                        <span className="alphabetCategory">
+                            <i className="fa fa-sort-alpha-asc" aria-hidden="true"></i> Alphabet
+                        </span>
+                    </div>
+                    <SubFilterList />
+                </div>
             </div>
+        )
+    }
+}
+
+class SubFilterList extends React.Component {
+    render(){
+        return (
+            <div></div>
         )
     }
 }
@@ -38,7 +59,8 @@ class App extends React.Component {
         super();
         this.state = {
             search: '',
-            people: []
+            people: [],
+            visibilityFilter: false
         };
         this.handleSearch = this.handleSearch.bind(this);
     }
@@ -77,6 +99,10 @@ class App extends React.Component {
         this.setState({search: value});
     }
 
+    toggleFilter(value){
+        this.setState({visibility: value});
+    }
+
     render(){
         this.sortData(this.state.search);
         return (
@@ -84,7 +110,7 @@ class App extends React.Component {
                 <header>
                     <div className="container">
                         <SearchBar onUserChange={this.handleSearch} value={this.state}/>
-                        <Filter />
+                        <Filter onUserClick={this.toggleFilter} value={this.state.visibilityFilter}/>
                     </div>
                 </header>
                 <div className="main">
