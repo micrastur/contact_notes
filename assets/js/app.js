@@ -10,10 +10,13 @@ class SearchBar extends React.Component {
             <div className="search">
                 <label>
                     Search:
-                    <input type="text" name="search" id="search"
+                    <input type="text"
+                           name="search"
+                           id="search"
                            className="search__input"
+                           data-category="search"
                            ref={(input) => this.searchText = input}
-                           onChange = {(e) => this.props.onUserChange('search', this.searchText.value)}
+                           onChange = {(e) => this.props.onUserChange(e, this.searchText.value)}
                            value={this.props.value.search}/>
                 </label>
             </div>
@@ -26,10 +29,14 @@ class Filter extends React.Component {
         console.log();
         return (
             <div className="filter">
-                <div className="filterBtn" data-category="filter" onClick = {(e) =>  this.props.onUserClick(!this.props.value)}>
+                <div className="filterBtn"
+                     data-category="filter"
+                     data-option="visibility"
+                     ref="filter"
+                     onClick = {(e) =>  this.props.onUserClick(e, !this.props.value)}>
                     <i className="fa fa-filter" aria-hidden="true"></i>
                 </div>
-                <div className={this.props.value ? "active" : "hidden"}>
+                <div className={this.props.value ? "active" : "hidden"} ref="sort">
                     <h3>Sort By:</h3>
                     <div className="filterCategory">
                         <span className="ageCategory">
@@ -60,9 +67,11 @@ class App extends React.Component {
         this.state = {
             search: '',
             people: [],
-            visibilityFilter: false
+            filter:  {
+                visibility: false
+            }
         };
-        this.handleSearch = this.handleSearch.bind(this);
+        this.handleState = this.handleState.bind(this);
     }
 
     sortData(value){
@@ -95,12 +104,13 @@ class App extends React.Component {
         })
     }
 
-    handleSearch(value){
-        this.setState({search: value});
-    }
+    handleState(e, value){
+        let element = e.currentTarget,
+            elementData = element.dataset,
+            [category, option] = [elementData.category, elementData.option],
+            obj = category && option ? {[category] : {[option] : value}} : {[category] : value};
 
-    toggleFilter(value){
-        this.setState({visibility: value});
+            this.setState(obj);
     }
 
     render(){
@@ -109,8 +119,8 @@ class App extends React.Component {
             <div>
                 <header>
                     <div className="container">
-                        <SearchBar onUserChange={this.handleSearch} value={this.state}/>
-                        <Filter onUserClick={this.toggleFilter} value={this.state.visibilityFilter}/>
+                        <SearchBar onUserChange={this.handleState} value={this.state}/>
+                        <Filter onUserClick={this.handleState} value={this.state.filter.visibility}/>
                     </div>
                 </header>
                 <div className="main">
