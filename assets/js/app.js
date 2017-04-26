@@ -26,7 +26,6 @@ class SearchBar extends React.Component {
 
 class Filter extends React.Component {
     render(){
-        console.log();
         return (
             <div className="filter">
                 <div className="filterBtn"
@@ -104,11 +103,60 @@ class App extends React.Component {
         })
     }
 
+    generateKeys(key, value, options){
+        options = options ? options : [];
+        key ? options.push(key) : false;
+        typeof value === "object"
+            ? value[0]
+            ? this.generateKeys(value[0], value[1], options)
+            : v = value[2] ? {[value[1]] : value[2]} : value[1]
+            : v = value;
+
+        return options;
+    }
+
+    formStateObj(data){
+        let obj = {}, currentObj = {}, v;
+
+        for(var i = 0; i <= data.length - 1; i++){
+            currentObj = {};
+
+            let dataItem = data[i], keysOptions,
+                j = typeof dataItem !== "object" ? data : dataItem,
+                dataKey = j[0],
+                dataValue = j[1];
+
+            keysOptions = generateKeys(dataKey, dataValue);
+
+            function generateKeys(key, value, options){
+                options = options ? options : [];
+                key ? options.push(key) : false;
+                typeof value === "object"
+                    ? value[0]
+                    ? generateKeys(value[0], value[1], options)
+                    : v = value[2] ? {[value[1]] : value[2]} : value[1]
+                    : v = value;
+
+                return options;
+            }
+
+            for(let keyOptLen = keysOptions.length - 1, k = keyOptLen; k >= 0; k--){
+                let o = {};
+                o[keysOptions[k]] = Object.keys(currentObj).length ? currentObj : v;
+                currentObj = o;
+            }
+            Object.assign(obj, currentObj);
+        }
+        return obj;
+
+    }
+
     handleState(e, value){
         let element = e.currentTarget,
             elementData = element.dataset,
             [category, option] = [elementData.category, elementData.option],
-            obj = category && option ? {[category] : {[option] : value}} : {[category] : value};
+            obj = this.formStateObj([category, [option, value]]);
+            console.log(obj);
 
             this.setState(obj);
     }
