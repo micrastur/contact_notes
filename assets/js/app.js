@@ -103,18 +103,6 @@ class App extends React.Component {
         })
     }
 
-    generateKeys(key, value, options){
-        options = options ? options : [];
-        key ? options.push(key) : false;
-        typeof value === "object"
-            ? value[0]
-            ? this.generateKeys(value[0], value[1], options)
-            : v = value[2] ? {[value[1]] : value[2]} : value[1]
-            : v = value;
-
-        return options;
-    }
-
     formStateObj(data){
         let obj = {}, currentObj = {}, v;
 
