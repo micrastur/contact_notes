@@ -103,34 +103,35 @@ class App extends React.Component {
         })
     }
 
-    formStateObj(data){
-        let obj = {}, currentObj = {}, v;
+    getProperties(key, value, options){
+        options = options ? options : [];
+        key ? options.push(key) : false;
+        console.log([options]);
+        return typeof value === "object"
+            ? value[0]
+            ? this.getProperties(value[0], value[1], options)
+            : value[2] ? [options, {[value[1]] : value[2]}] : [options, value[1]]
+            : [options, value];
+    }
+
+    generateStateObj(data){
+        let obj = {}, currentObj = {};
 
         for(var i = 0; i <= data.length - 1; i++){
             currentObj = {};
 
-            let dataItem = data[i], keysOptions,
+            let dataItem = data[i], properties,
                 j = typeof dataItem !== "object" ? data : dataItem,
                 dataKey = j[0],
                 dataValue = j[1];
 
-            keysOptions = generateKeys(dataKey, dataValue);
+            properties = this.getProperties(dataKey, dataValue);
+            let keys = properties[0],
+                value = properties[1];
 
-            function generateKeys(key, value, options){
-                options = options ? options : [];
-                key ? options.push(key) : false;
-                typeof value === "object"
-                    ? value[0]
-                    ? generateKeys(value[0], value[1], options)
-                    : v = value[2] ? {[value[1]] : value[2]} : value[1]
-                    : v = value;
-
-                return options;
-            }
-
-            for(let keyOptLen = keysOptions.length - 1, k = keyOptLen; k >= 0; k--){
+            for(let keyOptLen = keys.length - 1, k = keyOptLen; k >= 0; k--){
                 let o = {};
-                o[keysOptions[k]] = Object.keys(currentObj).length ? currentObj : v;
+                o[keys[k]] = Object.keys(currentObj).length ? currentObj : value;
                 currentObj = o;
             }
             Object.assign(obj, currentObj);
@@ -143,8 +144,8 @@ class App extends React.Component {
         let element = e.currentTarget,
             elementData = element.dataset,
             [category, option] = [elementData.category, elementData.option],
-            obj = this.formStateObj([category, [option, value]]);
-            console.log(obj);
+            obj = this.generateStateObj([category, [option, value]]);
+
 
             this.setState(obj);
     }
