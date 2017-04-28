@@ -4,53 +4,57 @@ import {contacts} from "./data";
 import CreateList from "./list";
 import "../css/style.css";
 
-class SearchBar extends React.Component {
-    render(){
-        return (
-            <div className="search">
-                <label>
-                    Search:
-                    <input type="text"
-                           name="search"
-                           id="search"
-                           className="search__input"
-                           data-category="search"
-                           ref={(input) => this.searchText = input}
-                           onChange = {(e) => this.props.onUserChange(e, this.searchText.value)}
-                           value={this.props.value.search}/>
-                </label>
-            </div>
-        )
-    }
-}
+const SearchBar = (props) => {
+    let searchText = null;
+    return (
+        <div className="search">
+            <label>
+                Search:
+                <input type="text"
+                       name="search"
+                       id="search"
+                       className="search__input"
+                       data-category="search"
+                       ref={input => (searchText = input)}
+                       onChange = {(e) => props.onUserChange(e, searchText.value)}
+                       value={props.value.search}/>
+            </label>
+        </div>
+    )
+};
 
-class Filter extends React.Component {
-    render(){
-        return (
-            <div className="filter">
-                <div className="filterBtn"
-                     data-category="filter"
-                     data-option="visibility"
-                     ref="filter"
-                     onClick = {(e) =>  this.props.onUserClick(e, !this.props.value)}>
-                    <i className="fa fa-filter" aria-hidden="true"></i>
-                </div>
-                <div className={this.props.value ? "active" : "hidden"} ref="sort">
-                    <h3>Sort By:</h3>
-                    <div className="filterCategory">
-                        <span className="ageCategory">
-                            <i className="fa fa-sort-numeric-asc" aria-hidden="true"></i> Age
-                        </span>
-                        <span className="alphabetCategory">
-                            <i className="fa fa-sort-alpha-asc" aria-hidden="true"></i> Alphabet
-                        </span>
-                    </div>
-                    <SubFilterList />
-                </div>
+const Filter = (props) => {
+    return (
+        <div className="filter">
+            <div className="filter_btn"
+                 data-category="filter"
+                 data-option="visibility"
+                 onClick = {(e) => props.onUserClick(e, !props.value)}>
+                <i className="fa fa-filter" aria-hidden="true"></i>
             </div>
-        )
-    }
-}
+            <div className={props.value ? "active" : "hidden"}>
+                <h3>Sort By:</h3>
+                <div className="filterCategory">
+                    <span className="ageCategory">
+                        <i className="fa fa-sort-numeric-asc" aria-hidden="true"></i> Age
+                    </span>
+                    <span className="alphabetCategory">
+                        <i className="fa fa-sort-alpha-asc" aria-hidden="true"></i> Alphabet
+                    </span>
+                </div>
+                <SubFilterList />
+            </div>
+        </div>
+    )
+};
+
+const Header = (props) => {
+    return (
+        <div className="search_section">
+            {props.children}
+        </div>
+    )
+};
 
 class SubFilterList extends React.Component {
     render(){
@@ -106,7 +110,6 @@ class App extends React.Component {
     getProperties(key, value, options){
         options = options ? options : [];
         key ? options.push(key) : false;
-        console.log([options]);
         return typeof value === "object"
             ? value[0]
             ? this.getProperties(value[0], value[1], options)
@@ -156,8 +159,10 @@ class App extends React.Component {
             <div>
                 <header>
                     <div className="container">
-                        <SearchBar onUserChange={this.handleState} value={this.state}/>
-                        <Filter onUserClick={this.handleState} value={this.state.filter.visibility}/>
+                        <Header>
+                            <SearchBar onUserChange={this.handleState} value={this.state}/>
+                            <Filter onUserClick={this.handleState} value={this.state.filter.visibility}/>
+                        </Header>
                     </div>
                 </header>
                 <div className="main">
