@@ -143,12 +143,11 @@ class App extends React.Component {
 
     }
 
-    handleState(e, value){
+    handleState(e, value) {
         let element = e.currentTarget,
             elementData = element.dataset,
             [category, option] = [elementData.category, elementData.option],
             obj = this.generateStateObj([category, [option, value]]);
-
 
         this.setState(obj);
     }
