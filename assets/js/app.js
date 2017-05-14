@@ -1,68 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
 import {contacts} from "./data";
+
 import CreateList from "./list";
-import "../css/style.css";
+import {SearchBar} from "./components/search";
+import {Filter} from "./components/filter";
 
-const SearchBar = (props) => {
-    let searchText = null;
-    return (
-        <div className="search">
-            <label>
-                Search:
-                <input type="text"
-                       name="search"
-                       id="search"
-                       className="search__input"
-                       data-category="search"
-                       ref={input => (searchText = input)}
-                       onChange = {(e) => props.onUserChange(e, searchText.value)}
-                       value={props.value.search}/>
-            </label>
-        </div>
-    )
-};
+import "../css/common.css";
 
-const Filter = (props) => {
-    return (
-        <div className="filter">
-            <div className="filter_btn"
-                 data-category="filter"
-                 data-option="visibility"
-                 onClick = {(e) => props.onUserClick(e, !props.value)}>
-                <i className="fa fa-filter" aria-hidden="true"></i>
-            </div>
-            <div className={props.value ? "active" : "hidden"}>
-                <h3>Sort By:</h3>
-                <div className="filterCategory">
-                    <span className="ageCategory">
-                        <i className="fa fa-sort-numeric-asc" aria-hidden="true"></i> Age
-                    </span>
-                    <span className="alphabetCategory">
-                        <i className="fa fa-sort-alpha-asc" aria-hidden="true"></i> Alphabet
-                    </span>
-                </div>
-                <SubFilterList />
-            </div>
-        </div>
-    )
-};
+
 
 const Header = (props) => {
     return (
-        <div className="search_section">
+        <div className="search_section float-r cf">
             {props.children}
         </div>
     )
 };
-
-class SubFilterList extends React.Component {
-    render(){
-        return (
-            <div></div>
-        )
-    }
-}
 
 class App extends React.Component {
     constructor(){
@@ -157,7 +112,7 @@ class App extends React.Component {
         return (
             <div>
                 <header>
-                    <div className="container">
+                    <div className="container cf">
                         <Header>
                             <SearchBar onUserChange={this.handleState} value={this.state}/>
                             <Filter onUserClick={this.handleState} value={this.state.filter.visibility}/>

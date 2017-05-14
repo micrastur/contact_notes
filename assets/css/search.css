@@ -1,0 +1,29 @@
+
+.search {
+    color: #424242;
+    font: bold 16px -apple-system, BlinkMacSystemFont, sans-serif;
+    position: relative;
+}
+
+.search__input {
+    color: #000000;
+    font: 500 15px Helvetica, sans-serif;
+    border: 2px solid #ffca54;
+    border-radius: 5px;
+    line-height: 1em;
+    margin-left: 15px;
+    padding: 2px 10px;
+}
+
+.search__input:focus {
+    outline: none;
+}
+
+.search__icon {
+    color: #ffca54;
+    border-radius: 5px;
+    padding: 2px 5px;
+    position: absolute;
+    right: 0;
+    top: 1px;
+}
