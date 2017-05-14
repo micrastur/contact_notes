@@ -1,7 +1,8 @@
 "use strict";
 
 let environment = process.env.NODE_ENV || 'dev',
-    extractTextPlugin = require('extract-text-webpack-plugin');
+    extractTextPlugin = require('extract-text-webpack-plugin'),
+    path = require('path');
 
 process.noDeprecation = true;
 
@@ -15,7 +16,7 @@ module.exports = {
         library: '[name]'
     },
     watch: environment === 'dev',
-    devtool: 'source-map',
+    devtool: environment === 'dev' ? 'source-map' : '',
     module: {
         loaders: [
             {
@@ -32,13 +33,13 @@ module.exports = {
             },
             {
                 test: /\.(jpe|jpg|woff|woff2|eot|ttf|svg)(\?.*$|$)/,
-                include: /\/node_modules\//,
-                loader: 'file-loader?name=[1]&regExp=node_modules/(.*)'
+                include: path.resolve(__dirname, '../node_modules'),
+                loader: 'file-loader?name=[1]&regExp=(\\\\|\/)node_modules(\\\\|\/)(.*)'
             },
             {
                 test: /\.(jpe|jpg|woff|woff2|eot|ttf|svg)(\?.*$|$)/,
-                exclude: /\/node_modules\//,
-                loader: 'file-loader?name=[path][name].[ext]'
+                exclude: path.resolve(__dirname, '../node_modules'),
+                loader: 'file-loader?name=[path][name].[ext]&context=./node_modules'
             }
         ]
     },

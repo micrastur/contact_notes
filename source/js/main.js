@@ -61,7 +61,7 @@ var main =
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
+/******/ 	__webpack_require__.p = "/source/";
 /******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(__webpack_require__.s = 180);
@@ -22074,6 +22074,8 @@ module.exports = traverseAllChildren;
 "use strict";
 
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(52);
@@ -22094,44 +22096,107 @@ __webpack_require__(82);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var SearchBar = function (_React$Component) {
-    _inherits(SearchBar, _React$Component);
+var SearchBar = function SearchBar(props) {
+    var searchText = null;
+    return _react2.default.createElement(
+        'div',
+        { className: 'search' },
+        _react2.default.createElement(
+            'label',
+            null,
+            'Search:',
+            _react2.default.createElement('input', { type: 'text',
+                name: 'search',
+                id: 'search',
+                className: 'search__input',
+                'data-category': 'search',
+                ref: function ref(input) {
+                    return searchText = input;
+                },
+                onChange: function onChange(e) {
+                    return props.onUserChange(e, searchText.value);
+                },
+                value: props.value.search })
+        )
+    );
+};
 
-    function SearchBar() {
-        _classCallCheck(this, SearchBar);
+var Filter = function Filter(props) {
+    return _react2.default.createElement(
+        'div',
+        { className: 'filter' },
+        _react2.default.createElement(
+            'div',
+            { className: 'filter_btn',
+                'data-category': 'filter',
+                'data-option': 'visibility',
+                onClick: function onClick(e) {
+                    return props.onUserClick(e, !props.value);
+                } },
+            _react2.default.createElement('i', { className: 'fa fa-filter', 'aria-hidden': 'true' })
+        ),
+        _react2.default.createElement(
+            'div',
+            { className: props.value ? "active" : "hidden" },
+            _react2.default.createElement(
+                'h3',
+                null,
+                'Sort By:'
+            ),
+            _react2.default.createElement(
+                'div',
+                { className: 'filterCategory' },
+                _react2.default.createElement(
+                    'span',
+                    { className: 'ageCategory' },
+                    _react2.default.createElement('i', { className: 'fa fa-sort-numeric-asc', 'aria-hidden': 'true' }),
+                    ' Age'
+                ),
+                _react2.default.createElement(
+                    'span',
+                    { className: 'alphabetCategory' },
+                    _react2.default.createElement('i', { className: 'fa fa-sort-alpha-asc', 'aria-hidden': 'true' }),
+                    ' Alphabet'
+                )
+            ),
+            _react2.default.createElement(SubFilterList, null)
+        )
+    );
+};
 
-        return _possibleConstructorReturn(this, (SearchBar.__proto__ || Object.getPrototypeOf(SearchBar)).apply(this, arguments));
+var Header = function Header(props) {
+    return _react2.default.createElement(
+        'div',
+        { className: 'search_section' },
+        props.children
+    );
+};
+
+var SubFilterList = function (_React$Component) {
+    _inherits(SubFilterList, _React$Component);
+
+    function SubFilterList() {
+        _classCallCheck(this, SubFilterList);
+
+        return _possibleConstructorReturn(this, (SubFilterList.__proto__ || Object.getPrototypeOf(SubFilterList)).apply(this, arguments));
     }
 
-    _createClass(SearchBar, [{
+    _createClass(SubFilterList, [{
         key: 'render',
         value: function render() {
-            var _this2 = this;
-
-            return _react2.default.createElement(
-                'label',
-                null,
-                'Search:',
-                _react2.default.createElement('input', { type: 'text', name: 'search',
-                    className: 'search__input',
-                    ref: function ref(input) {
-                        return _this2.searchText = input;
-                    },
-                    onChange: function onChange(e) {
-                        return _this2.props.onUserChange(_this2.searchText.value);
-                    },
-                    value: this.props.value.search })
-            );
+            return _react2.default.createElement('div', null);
         }
     }]);
 
-    return SearchBar;
+    return SubFilterList;
 }(_react2.default.Component);
 
 var App = function (_React$Component2) {
@@ -22140,14 +22205,17 @@ var App = function (_React$Component2) {
     function App() {
         _classCallCheck(this, App);
 
-        var _this3 = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this));
+        var _this2 = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this));
 
-        _this3.state = {
+        _this2.state = {
             search: '',
-            people: []
+            people: [],
+            filter: {
+                visibility: false
+            }
         };
-        _this3.handleSearch = _this3.handleSearch.bind(_this3);
-        return _this3;
+        _this2.handleState = _this2.handleState.bind(_this2);
+        return _this2;
     }
 
     _createClass(App, [{
@@ -22196,9 +22264,52 @@ var App = function (_React$Component2) {
             });
         }
     }, {
-        key: 'handleSearch',
-        value: function handleSearch(value) {
-            this.setState({ search: value });
+        key: 'getProperties',
+        value: function getProperties(key, value, options) {
+            options = options ? options : [];
+            key ? options.push(key) : false;
+            return (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === "object" ? value[0] ? this.getProperties(value[0], value[1], options) : value[2] ? [options, _defineProperty({}, value[1], value[2])] : [options, value[1]] : [options, value];
+        }
+    }, {
+        key: 'generateStateObj',
+        value: function generateStateObj(data) {
+            var obj = {},
+                currentObj = {};
+
+            for (var i = 0; i < data.length - 1; i++) {
+                currentObj = {};
+
+                var dataItem = data[i],
+                    properties = void 0,
+                    j = (typeof dataItem === 'undefined' ? 'undefined' : _typeof(dataItem)) !== "object" ? data : dataItem,
+                    dataKey = j[0],
+                    dataValue = j[1];
+
+                properties = this.getProperties(dataKey, dataValue);
+                var keys = properties[0],
+                    value = properties[1];
+
+                for (var keyOptLen = keys.length - 1, k = keyOptLen; k >= 0; k--) {
+                    var o = {};
+                    o[keys[k]] = Object.keys(currentObj).length ? currentObj : value;
+                    currentObj = o;
+                }
+                Object.assign(obj, currentObj);
+            }
+            return obj;
+        }
+    }, {
+        key: 'handleState',
+        value: function handleState(e, value) {
+            var element = e.currentTarget,
+                elementData = element.dataset,
+                _ref2 = [elementData.category, elementData.option],
+                category = _ref2[0],
+                option = _ref2[1],
+                obj = this.generateStateObj([category, [option, value]]);
+
+
+            this.setState(obj);
         }
     }, {
         key: 'render',
@@ -22214,9 +22325,10 @@ var App = function (_React$Component2) {
                         'div',
                         { className: 'container' },
                         _react2.default.createElement(
-                            'div',
-                            { className: 'search' },
-                            _react2.default.createElement(SearchBar, { onUserChange: this.handleSearch, value: this.state })
+                            Header,
+                            null,
+                            _react2.default.createElement(SearchBar, { onUserChange: this.handleState, value: this.state }),
+                            _react2.default.createElement(Filter, { onUserClick: this.handleState, value: this.state.filter.visibility })
                         )
                     )
                 ),
