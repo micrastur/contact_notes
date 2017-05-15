@@ -1,7 +1,8 @@
 
 .search {
     color: #424242;
-    font: bold 16px -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
     position: relative;
 }
 
