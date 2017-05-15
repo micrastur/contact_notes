@@ -27,6 +27,7 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
     line-height: 1;
+    font: 14px  -apple-system, BlinkMacSystemFont, sans-serif;
 }
 ol, ul {
     list-style: none;
@@ -81,6 +82,12 @@ header {
     display: none;
 }
 
-body {
-    margin: 0;
+.icon {
+    background-color: #ffca54;
+    color: #fff;
+    font-size: 18px;
+    border-radius: 5px;
+    padding: 3px 0;
+    text-align: center;
+    width: 24px;
 }
