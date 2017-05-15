@@ -26,10 +26,12 @@ class App extends React.Component {
             search: '',
             people: [],
             filter:  {
+                sort: "alphabet",
                 visibility: false
             }
         };
         this.handleState = this.handleState.bind(this);
+        this.selectSortType = this.selectSortType.bind(this);
     }
 
     sortData(value){
@@ -98,13 +100,32 @@ class App extends React.Component {
 
     }
 
-    handleState(e, value) {
-        let element = e.currentTarget,
-            elementData = element.dataset,
+    handleState(element, value) {
+        let elementData = element.dataset,
             [category, option] = [elementData.category, elementData.option],
             obj = this.generateStateObj([category, [option, value]]);
 
         this.setState(obj);
+    }
+
+    selectSortType(e){
+        let targetElement = e.target,
+            currentTarget = e.currentTarget;
+
+        if(targetElement !== currentTarget){
+            let filterType = targetElement.getAttribute("data-filter-type"),
+                currentFilterElement = filterType ? targetElement : targetElement.parentElement,
+                childElements = currentTarget.children,
+                activeClass = "filter_item-active";
+
+            [...childElements].filter(function(elem, index){
+                if(elem.classList.contains(activeClass)){
+                    elem.classList.remove(activeClass);
+                    currentFilterElement.classList.add(activeClass);
+                }
+            });
+            this.handleState(targetElement, filterType);
+        }
     }
 
     render(){
@@ -115,7 +136,7 @@ class App extends React.Component {
                     <div className="container cf">
                         <Header>
                             <SearchBar onUserChange={this.handleState} value={this.state}/>
-                            <Filter onUserClick={this.handleState} value={this.state.filter.visibility}/>
+                            <Filter onUserClick={{btn: this.handleState, sort: this.selectSortType}} value={this.state.filter.visibility}/>
                         </Header>
                     </div>
                 </header>
@@ -126,7 +147,6 @@ class App extends React.Component {
                         )}
                     </div>
                 </div>
-
             </div>
         )
     }
