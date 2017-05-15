@@ -3,15 +3,6 @@
     position: relative;
 }
 
-.filter_btn {
-    background-color: #ffca54;
-    color: #fff;
-    border-radius: 5px;
-    padding: 3px 0;
-    text-align: center;
-    width: 24px;
-}
-
 .filter_type {
     background-color: #fff;
     border: 2px solid #e8dbbd;
@@ -20,5 +11,29 @@
     position: absolute;
     top: 130%;
     right: 0;
-    width: 297px;
+    width: 425px;
+}
+
+.filter_category { margin-top: 10px; }
+
+.filter_category span { margin-right: 15px; }
+
+.filter_item {
+    display: inline-block;
+    padding: 2px 8px 2px 2px;
+    border-radius: 5px;
+}
+
+.filter_item-active {
+    color: #fff;
+    background-color: #ffca54;
+}
+
+.filter_item-active .icon {
+    color: #ffca54;
+    background-color: #fff;
+}
+
+.filter_item .icon {
+    margin-right: 3px;
 }
