@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import update from 'react-addons-update';
 
 import {contacts} from "./data";
 
@@ -26,7 +27,7 @@ class App extends React.Component {
             search: '',
             people: [],
             filter:  {
-                sort: "alphabet",
+                sort: ["alphabet"],
                 visibility: false
             }
         };
@@ -91,7 +92,7 @@ class App extends React.Component {
 
             for(let keyOptLen = keys.length - 1, k = keyOptLen; k >= 0; k--){
                 let o = {};
-                o[keys[k]] = Object.keys(currentObj).length ? currentObj : value;
+                o[keys[k]] = Object.keys(currentObj).length ? currentObj : {$set: value};
                 currentObj = o;
             }
             Object.assign(obj, currentObj);
@@ -105,30 +106,32 @@ class App extends React.Component {
             [category, option] = [elementData.category, elementData.option],
             obj = this.generateStateObj([category, [option, value]]);
 
-        this.setState(obj);
+        var newState = update(this.state, obj);
+        this.setState(newState);
     }
 
     selectSortType(e){
         let targetElement = e.target,
             currentTarget = e.currentTarget;
 
-        if(targetElement !== currentTarget){
-            let filterType = targetElement.getAttribute("data-filter-type"),
-                currentFilterElement = filterType ? targetElement : targetElement.parentElement,
-                childElements = currentTarget.children,
-                activeClass = "filter_item-active";
 
-            [...childElements].filter(function(elem, index){
-                if(elem.classList.contains(activeClass)){
-                    elem.classList.remove(activeClass);
-                    currentFilterElement.classList.add(activeClass);
-                }
-            });
-            this.handleState(targetElement, filterType);
+        if(targetElement !== currentTarget){
+            let filterElem = targetElement.getAttribute("data-filter-type") ? targetElement : targetElement.parentElement,
+                filterType = filterElem.getAttribute("data-filter-type"),
+                activeClass = "filter_item-active",
+                currentSortMethods = ['false'].concat(this.state.filter.sort);
+                currentSortMethods.push(filterType);
+
+            filterElem.classList.contains(activeClass)
+                ? filterElem.classList.remove(activeClass)
+                : filterElem.classList.add(activeClass);
+
+            this.handleState(filterElem, currentSortMethods);
         }
     }
 
     render(){
+        console.log(this.state.filter.sort);
         this.sortData(this.state.search);
         return (
             <div>
