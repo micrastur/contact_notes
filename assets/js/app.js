@@ -69,9 +69,9 @@ class App extends React.Component {
         options = options ? options : [];
         key ? options.push(key) : false;
         return typeof value === "object"
-            ? value[0]
+            ? !value.false
                 ? this.getProperties(value[0], value[1], options)
-                : value[2] ? [options, {[value[1]] : value[2]}] : [options, value[1]]
+                : [options, value.false]
             : [options, value];
     }
 
@@ -119,8 +119,17 @@ class App extends React.Component {
             let filterElem = targetElement.getAttribute("data-filter-type") ? targetElement : targetElement.parentElement,
                 filterType = filterElem.getAttribute("data-filter-type"),
                 activeClass = "filter_item-active",
-                currentSortMethods = ['false'].concat(this.state.filter.sort);
-                currentSortMethods.push(filterType);
+                currentSortTypes = this.state.filter.sort,
+                existedSortTypeIndex = currentSortTypes.indexOf(filterType),
+                currentSortMethods = {
+                    false: currentSortTypes
+                };
+
+            existedSortTypeIndex !== -1 
+                ? currentSortTypes.splice(existedSortTypeIndex, 1) 
+                : currentSortTypes = currentSortTypes.concat(filterType);
+
+            currentSortMethods.false = currentSortTypes;
 
             filterElem.classList.contains(activeClass)
                 ? filterElem.classList.remove(activeClass)
