@@ -21,92 +21,119 @@ const Header = (props) => {
 };
 
 class App extends React.Component {
-    constructor(){
+    constructor() {
         super();
         this.state = {
             search: '',
             people: [],
-            filter:  {
+            filter: {
                 method: [],
                 visibility: false
             }
         };
+        this.people = contacts;
+        this.filterInfo = {
+            people: contacts,
+            priority: ['group', 'age', 'country', 'alphabet'],
+            methods: {
+                alphabet: function () {
+                    this.people.sort(function (prev, next) {
+                        let prevFullName = prev.name + ' ' + prev.surname,
+                            nextFullName = next.name + ' ' + next.surname;
+                        return prevFullName > nextFullName ? 1 : prevFullName !== nextFullName ? -1 : 0;
+                    })
+                },
+                age: function () {
+                    this.people.sort(function (prev, next) {
+                        let prevAge = prev.age,
+                            nextAge = next.age;
+                        return prevAge > nextAge ? 1 : prevAge !== nextAge ? -1 : 0;
+                    });
+                },
+                country: function () {
+                    this.people.sort(function (prev, next) {
+                        let prevAge = prev.country,
+                            nextAge = next.country;
+                        return prevAge > nextAge ? 1 : prevAge !== nextAge ? -1 : 0;
+                    });
+                },
+                group: function () {
+                    let groups = [],
+                        groupData = [];
+                    for (let key of this.people) {
+                        let currentGroup = key.group,
+                            groupIndex = groups.indexOf(key.group),
+                            fullName = key.name + ' ' + key.surname;
+
+                        !searchStr || fullName.slice(0, searchStr.length).toLowerCase() === searchStr
+                            ? !groupIndex
+                            ? (groups.push(currentGroup), groupData.push([key]))
+                            : groupData[groupIndex].push([key])
+                            : false;
+                    }
+                    this.people = groupData;
+                }
+            }
+        };
         this.handleState = this.handleState.bind(this);
         this.selectSortType = this.selectSortType.bind(this);
+        this.getData = this.getData.bind(this);
     }
 
-    //sortData(value){
-    //    this.state.people = [];
-    //    let groups = [],
-    //        search = value.toLowerCase();
-    //    for (let key of contacts) {
-    //        let currentGroup = key.group,
-    //            groupIndex = groups.indexOf(key.group);
-    //
-    //        search
-    //            ?key.name.slice(0, search.length).toLowerCase() === search
-    //            || key.surname.slice(0, search.length).toLowerCase() === search
-    //            || (key.name + ' ' + key.surname).slice(0, search.length).toLowerCase() === search
-    //                ? groupIndex === -1
-    //                    ? (this.state.people.push([key]), groups.push(currentGroup))
-    //                    : (this.state.people[groupIndex].push(key))
-    //                : false
-    //            : groupIndex === -1
-    //                ? (this.state.people.push([key]), groups.push(currentGroup))
-    //                : this.state.people[groupIndex].push(key);
-    //    }
-    //    if(!search){
-    //        this.sortByAlphabet();
-    //    }
-    //}
+    filterByMethods(actualMethods){
+        let currentMethods = actualMethods ? actualMethods : this.state.filter.method,
+            priority = ['group', 'age', 'country', 'alphabet'],
+            searchStr = this.state.search.toLowerCase();
 
-    sortByAlphabet(){
-        this.state.people.sort(function(prev, next){
-            let prevFullName = prev.name + ' ' + prev.surname,
-                nextFullName = next.name + ' ' + next.surname;
-            return prevFullName > nextFullName ? 1 : prevFullName !== nextFullName ? -1 : 0;
-        })
-    }
-
-    getData(search){
-        let searchString = search.toLowerCase().trim().replace( /\s+/g, ' '), methods =  this.filterByMethods();
-        this.state.people = [];
-        if(searchString){
-            for (let key of contacts) {
-                let fullName = (key.name + ' ' + key.surname).toLowerCase();
-                fullName.slice(0, searchString.length) === searchString
-                    ? this.state.people.push(key)
-                    : false;
-            }
-        } else {
-            this.state.people = contacts;
-        }
-
-        if(!this.state.filter.method.length){
-            methods.alphabet.call(this);
-        }
-    }
-
-    filterByMethods(){
         let methods = {
             alphabet: function(){
-                this.state.people.sort(function(prev, next){
+                this.people.sort(function(prev, next){
                     let prevFullName = prev.name + ' ' + prev.surname,
                         nextFullName = next.name + ' ' + next.surname;
                     return prevFullName > nextFullName ? 1 : prevFullName !== nextFullName ? -1 : 0;
                 })
             },
             age: function(){
-                this.state.people.sort(function(prev, next){
+                this.people.sort(function(prev, next){
                     let prevAge = prev.age,
                         nextAge = next.age;
                     return prevAge > nextAge ? 1 : prevAge !== nextAge ? -1 : 0;
-                })
+                });
             },
-            country: '',
-            group: ''
+            country: function(){
+                this.people.sort(function(prev, next){
+                    let prevAge = prev.country,
+                        nextAge = next.country;
+                    return prevAge > nextAge ? 1 : prevAge !== nextAge ? -1 : 0;
+                });
+            },
+            group: function(){
+                let groups = [],
+                    groupData = [];
+                for (let key of this.people) {
+                    let currentGroup = key.group,
+                        groupIndex = groups.indexOf(key.group),
+                        fullName = key.name + ' ' + key.surname;
+
+                    !searchStr || fullName.slice(0, searchStr.length).toLowerCase() === searchStr
+                        ? !groupIndex
+                        ? (groups.push(currentGroup), groupData.push([key]))
+                        : groupData[groupIndex].push([key])
+                        : false;
+                }
+                this.people = groupData;
+            }
         };
-        return methods;
+
+        if(!this.state.filter.method.length){
+            methods.alphabet.call(this);
+        } else {
+            for(let i = priority.length-1;  i > 0; i--){
+                if(currentMethods.indexOf(priority[i]) !== -1){
+                    methods[priority[i]].call(this);
+                }
+            }
+        }
     }
 
     getProperties(key, value, options){
@@ -145,20 +172,42 @@ class App extends React.Component {
 
     }
 
-    handleState(element, value) {
-        let elementData = element.dataset.stateCategory;
+    getData(element, search){
+        this.people = [];
+        let searchString = search.toLowerCase().trim().replace( /\s+/g, ' ');
+        if(searchString){
+            for (let key of contacts) {
+                let fullName = (key.name + ' ' + key.surname).toLowerCase();
+                fullName.slice(0, searchString.length) === searchString
+                    ? this.people.push(key)
+                    : false;
+            }
+        } else {
+            this.people = contacts;
+        }
 
-        elementData = elementData.indexOf('-') !== -1 ? elementData.split('-') : elementData.split();
+        this.filterByMethods();
+        this.handleState({
+            search: searchString,
+            people: this.people
+        });
+    }
 
-        let [category, option] = [elementData[0], elementData[1]],
-            obj = this.generateStateObj([category, [option, value]]);
-
+    handleState(obj){
         var newState = update(this.state, obj);
         this.setState(newState);
     }
 
-    extractValuesByType(){
-
+    handleState(element, value) {
+        let elementData = element.dataset.stateCategory;
+    
+        elementData = elementData.indexOf('-') !== -1 ? elementData.split('-') : elementData.split();
+    
+        let [category, option] = [elementData[0], elementData[1]],
+            obj = this.generateStateObj([category, [option, value]]);
+    
+        var newState = update(this.state, obj);
+        this.setState(newState);
     }
 
     selectSortType(e){
@@ -166,50 +215,78 @@ class App extends React.Component {
         e.preventDefault();
         let [targetElement, currentTarget] = [e.target, e.currentTarget];
 
-        function extractValuesByType(){
-        }
-
         if(targetElement !== currentTarget){
-            let filterElem = targetElement.getAttribute("data-type") ? targetElement : targetElement.parentElement,
+            let filterElem = targetElement.getAttribute("data-type")
+                    ? targetElement
+                    : targetElement.parentElement,
                 [filterType, filterStatus, activeItem] = [filterElem.dataset.type, filterElem.dataset.status, 'filter_item-active'],
                 activeAddElem = document.querySelectorAll('.filter_item-active[data-status="additional"]')[0],
-                valuesByType,
-                currentSortMethods = {
-                    false: this.state.filter.method
+                currentSortMethods = [].concat(this.state.filter.method),
+                activatingItem = {
+                    main: function(){
+
+                        currentSortMethods.indexOf(filterType) !== -1
+                            ? currentSortMethods.splice(currentSortMethods.indexOf(filterType), 1)
+                            : currentSortMethods.push(filterType);
+
+                        filterElem.classList.contains(activeItem)
+                            ? filterElem.classList.remove(activeItem)
+                            : filterElem.classList.add(activeItem);
+
+                    },
+                    additional: function(){
+                        let typeElems = document.querySelectorAll(`[data-status='${filterStatus}']`),
+                            typeElemsValue = [];
+
+                        for(let key of typeElems){
+                            key.dataset.type !== filterType ? typeElemsValue.push(key.dataset.type) : false;
+                        }
+
+                        for(let key of typeElemsValue){
+                            if(currentSortMethods.indexOf(key) !== -1){
+                                currentSortMethods.splice(currentSortMethods.indexOf(key), 1)
+                            }
+                        }
+
+                        activeAddElem === filterElem
+                        ?  currentSortMethods.splice(currentSortMethods.indexOf(filterType), 1)
+                        :  currentSortMethods.push(filterType);
+
+                        activeAddElem ? activeAddElem.classList.remove(activeItem) : false;
+
+                        filterElem === activeAddElem
+                            ? filterElem.classList.remove(activeItem)
+                            : filterElem.classList.add(activeItem);
+                    }
                 };
-                //activatingItem = {
-                //    main: function(){
-                //        valuesByType = extractValuesByType();
-                //    },
-                //    additional: function(){
-                //        valuesByType = extractValuesByType();
-                //    }
-                //};
-
-            //activatingItem[filterStatus].call(this);
 
 
-            filterStatus === "main"
-                ? filterElem.classList.contains(activeItem)
-                ? filterElem.classList.remove(activeItem)
-                : filterElem.classList.add(activeItem)
-                : (activeAddElem ? activeAddElem.classList.remove(activeItem) : false, filterElem.classList.add(activeItem));
+            activatingItem[filterStatus].call(this);
+            this.filterByMethods(currentSortMethods);
+            this.handleState({
+                method: currentSortMethods,
+                people: this.people
+            });
 
-            //this.handleState(filterElem, currentSortMethods);
-            //console.log(this.state.filter.method);
 
         }
     }
 
+    componentDidMount() {
+        this.filterByMethods();
+        this.handleState({
+            people: this.people
+        });
+    }
+
+
     render(){
-        console.log(this.state.search);
-        this.getData(this.state.search);
         return (
             <div>
                 <header>
                     <div className="container cf">
                         <Header>
-                            <SearchBar onUserChange={this.handleState} value={this.state}/>
+                            <SearchBar onUserChange={this.getData} value={this.state}/>
                             <Filter onUserClick={{btn: this.handleState, sort: this.selectSortType}} value={this.state.filter.visibility}/>
                         </Header>
                     </div>
