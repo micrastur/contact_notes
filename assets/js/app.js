@@ -21,48 +21,119 @@ const Header = (props) => {
 };
 
 class App extends React.Component {
-    constructor(){
+    constructor() {
         super();
         this.state = {
             search: '',
             people: [],
-            filter:  {
-                sort: ["alphabet"],
+            filter: {
+                method: [],
                 visibility: false
+            }
+        };
+        this.people = contacts;
+        this.filterInfo = {
+            people: contacts,
+            priority: ['group', 'age', 'country', 'alphabet'],
+            methods: {
+                alphabet: function () {
+                    this.people.sort(function (prev, next) {
+                        let prevFullName = prev.name + ' ' + prev.surname,
+                            nextFullName = next.name + ' ' + next.surname;
+                        return prevFullName > nextFullName ? 1 : prevFullName !== nextFullName ? -1 : 0;
+                    })
+                },
+                age: function () {
+                    this.people.sort(function (prev, next) {
+                        let prevAge = prev.age,
+                            nextAge = next.age;
+                        return prevAge > nextAge ? 1 : prevAge !== nextAge ? -1 : 0;
+                    });
+                },
+                country: function () {
+                    this.people.sort(function (prev, next) {
+                        let prevAge = prev.country,
+                            nextAge = next.country;
+                        return prevAge > nextAge ? 1 : prevAge !== nextAge ? -1 : 0;
+                    });
+                },
+                group: function () {
+                    let groups = [],
+                        groupData = [];
+                    for (let key of this.people) {
+                        let currentGroup = key.group,
+                            groupIndex = groups.indexOf(key.group),
+                            fullName = key.name + ' ' + key.surname;
+
+                        !searchStr || fullName.slice(0, searchStr.length).toLowerCase() === searchStr
+                            ? !groupIndex
+                                ? (groups.push(currentGroup), groupData.push([key]))
+                                : groupData[groupIndex].push([key])
+                            : false;
+                    }
+                    this.people = groupData;
+                }
             }
         };
         this.handleState = this.handleState.bind(this);
         this.selectSortType = this.selectSortType.bind(this);
+        this.getData = this.getData.bind(this);
     }
 
-    sortData(value){
-        this.state.people = [];
-        let groups = [],
-            search = value.toLowerCase();
-        for (let key of contacts) {
-            let currentGroup = key.group,
-                groupIndex = groups.indexOf(key.group);
+    filterByMethods(actualMethods){
+        let currentMethods = actualMethods ? actualMethods : this.state.filter.method,
+            priority = ['group', 'age', 'country', 'alphabet'],
+            searchStr = this.state.search.toLowerCase();
 
-            search
-                ?key.name.slice(0, search.length).toLowerCase() === search
-                || key.surname.slice(0, search.length).toLowerCase() === search
-                    ? groupIndex === -1
-                        ? (this.state.people.push([key]), groups.push(currentGroup))
-                        : (this.state.people[groupIndex].push(key))
-                    : false
-                : groupIndex === -1
-                    ? (this.state.people.push([key]), groups.push(currentGroup))
-                    : this.state.people[groupIndex].push(key);
-        }
-        if(!search){
-            this.sortByAlphabet();
-        }
-    }
+        let methods = {
+            alphabet: function(){
+                this.people.sort(function(prev, next){
+                    let prevFullName = prev.name + ' ' + prev.surname,
+                        nextFullName = next.name + ' ' + next.surname;
+                    return prevFullName > nextFullName ? 1 : prevFullName !== nextFullName ? -1 : 0;
+                })
+            },
+            age: function(){
+                this.people.sort(function(prev, next){
+                    let prevAge = prev.age,
+                        nextAge = next.age;
+                    return prevAge > nextAge ? 1 : prevAge !== nextAge ? -1 : 0;
+                });
+            },
+            country: function(){
+                this.people.sort(function(prev, next){
+                    let prevAge = prev.country,
+                        nextAge = next.country;
+                    return prevAge > nextAge ? 1 : prevAge !== nextAge ? -1 : 0;
+                });
+            },
+            group: function(){
+                let groups = [],
+                    groupData = [];
+                for (let key of this.people) {
+                    let currentGroup = key.group,
+                        groupIndex = groups.indexOf(key.group),
+                        fullName = key.name + ' ' + key.surname;
 
-    sortByAlphabet(){
-        this.state.people.sort(function(prev, next){
-            return prev[0].group > next[0].group ? 1 : prev[0].group < next[0].group ? -1 : 0;
-        })
+                    !searchStr || fullName.slice(0, searchStr.length).toLowerCase() === searchStr
+                        ? !groupIndex
+                            ? (groups.push(currentGroup), groupData.push([key]))
+                            : groupData[groupIndex].push([key])
+                        : false;
+                }
+                this.people = groupData;
+            }
+        };
+
+        if(!this.state.filter.method.length){
+            methods.alphabet.call(this);
+        } else {
+            for(let i = priority.length-1;  i > 0; i--){
+                if(currentMethods.indexOf(priority[i]) !== -1){
+                    methods[priority[i]].call(this);
+                }
+            }
+        }
     }
 
     getProperties(key, value, options){
@@ -101,9 +172,38 @@ class App extends React.Component {
 
     }
 
+    getData(element, search){
+        this.people = [];
+        let searchString = search.toLowerCase().trim().replace( /\s+/g, ' ');
+        if(searchString){
+            for (let key of contacts) {
+                let fullName = (key.name + ' ' + key.surname).toLowerCase();
+                fullName.slice(0, searchString.length) === searchString
+                    ? this.people.push(key)
+                    : false;
+            }
+        } else {
+            this.people = contacts;
+        }
+
+        this.filterByMethods();
+        this.handleState({
+            search: searchString,
+            people: this.people
+        });
+    }
+
+    handleState(obj){
+        var newState = update(this.state, obj);
+        this.setState(newState);
+    }
+
     handleState(element, value) {
-        let elementData = element.dataset,
-            [category, option] = [elementData.category, elementData.option],
+        let elementData = element.dataset.stateCategory;
+
+        elementData = elementData.indexOf('-') !== -1 ? elementData.split('-') : elementData.split();
+
+        let [category, option] = [elementData[0], elementData[1]],
             obj = this.generateStateObj([category, [option, value]]);
 
         var newState = update(this.state, obj);
@@ -111,52 +211,93 @@ class App extends React.Component {
     }
 
     selectSortType(e){
-        let targetElement = e.target,
-            currentTarget = e.currentTarget;
-
+        e.stopPropagation();
+        e.preventDefault();
+        let [targetElement, currentTarget] = [e.target, e.currentTarget];
 
         if(targetElement !== currentTarget){
-            let filterElem = targetElement.getAttribute("data-filter-type") ? targetElement : targetElement.parentElement,
-                filterType = filterElem.getAttribute("data-filter-type"),
-                activeClass = "filter_item-active",
-                currentSortTypes = this.state.filter.sort,
-                existedSortTypeIndex = currentSortTypes.indexOf(filterType),
-                currentSortMethods = {
-                    false: currentSortTypes
+            let filterElem = targetElement.getAttribute("data-type")
+                    ? targetElement
+                    : targetElement.parentElement,
+                [filterType, filterStatus, activeItem] = [filterElem.dataset.type, filterElem.dataset.status, 'filter_item-active'],
+                activeAddElem = document.querySelectorAll('.filter_item-active[data-status="additional"]')[0],
+                currentSortMethods = [].concat(this.state.filter.method),
+                activatingItem = {
+                    main: function(){
+
+                        currentSortMethods.indexOf(filterType) !== -1
+                            ? currentSortMethods.splice(currentSortMethods.indexOf(filterType), 1)
+                            : currentSortMethods.push(filterType);
+
+                        filterElem.classList.contains(activeItem)
+                            ? filterElem.classList.remove(activeItem)
+                            : filterElem.classList.add(activeItem);
+
+                    },
+                    additional: function(){
+                        let typeElems = document.querySelectorAll(`[data-status='${filterStatus}']`),
+                            typeElemsValue = [];
+
+                        for(let key of typeElems){
+                            key.dataset.type !== filterType ? typeElemsValue.push(key.dataset.type) : false;
+                        }
+
+                        for(let key of typeElemsValue){
+                            if(currentSortMethods.indexOf(key) !== -1){
+                                currentSortMethods.splice(currentSortMethods.indexOf(key), 1)
+                            }
+                        }
+
+                        activeAddElem === filterElem
+                            ?  currentSortMethods.splice(currentSortMethods.indexOf(filterType), 1)
+                            :  currentSortMethods.push(filterType);
+
+                        activeAddElem ? activeAddElem.classList.remove(activeItem) : false;
+
+                        filterElem === activeAddElem
+                            ? filterElem.classList.remove(activeItem)
+                            : filterElem.classList.add(activeItem);
+                    }
                 };
 
-            existedSortTypeIndex !== -1 
-                ? currentSortTypes.splice(existedSortTypeIndex, 1) 
-                : currentSortTypes = currentSortTypes.concat(filterType);
 
-            currentSortMethods.false = currentSortTypes;
+            activatingItem[filterStatus].call(this);
+            this.filterByMethods(currentSortMethods);
+            this.handleState({
+                method: currentSortMethods,
+                people: this.people
+            });
 
-            filterElem.classList.contains(activeClass)
-                ? filterElem.classList.remove(activeClass)
-                : filterElem.classList.add(activeClass);
 
-            this.handleState(filterElem, currentSortMethods);
         }
     }
 
+    componentDidMount() {
+        this.filterByMethods();
+        this.handleState({
+            people: this.people
+        });
+    }
+
+
     render(){
-        console.log(this.state.filter.sort);
-        this.sortData(this.state.search);
         return (
             <div>
                 <header>
                     <div className="container cf">
                         <Header>
-                            <SearchBar onUserChange={this.handleState} value={this.state}/>
+                            <SearchBar onUserChange={this.getData} value={this.state}/>
                             <Filter onUserClick={{btn: this.handleState, sort: this.selectSortType}} value={this.state.filter.visibility}/>
                         </Header>
                     </div>
                 </header>
                 <div className="main">
                     <div className="container">
-                        {this.state.people.map((value, index) =>
-                            <CreateList key={"list-" + index} value={value}/>
-                        )}
+                        <ul>
+                            {this.state.people.map((value, index) =>
+                                <CreateList key={"list-" + index} value={value}/>
+                            )}
+                        </ul>
                     </div>
                 </div>
             </div>

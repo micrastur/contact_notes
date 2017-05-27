@@ -28,6 +28,7 @@
     "file-loader": "^0.11.1",
     "font-awesome": "^4.7.0",
     "react": "^15.4.2",
+    "react-addons-update": "^15.5.2",
     "react-dom": "^15.4.2",
     "style-loader": "^0.16.1",
     "webpack": "^2.2.1"

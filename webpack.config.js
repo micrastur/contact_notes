@@ -11,7 +11,7 @@ module.exports = {
     entry: './app',
     output: {
         path: __dirname + '/source/',
-        publicPath: '/contact_notes/source/',
+        publicPath: '/source/',
         filename: 'js/[name].js',
         library: '[name]'
     },
