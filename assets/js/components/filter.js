@@ -12,7 +12,7 @@ export const Filter = (props) => {
             <div className={"filter_type " + (props.value ? "active" : "hidden")}>
                 <h3>Sort By:</h3>
                 <div className="filter_category" onClick={(e) => props.onUserClick.sort(e)}>
-                    <label className="filter_item filter_alphabet" data-state-category="filter-method" data-status="main" data-type="alphabet">
+                    <label className="filter_item filter_alphabet filter_item-active" data-state-category="filter-method" data-status="main" data-type="alphabet">
                         <i className="icon fa fa-sort-alpha-asc" aria-hidden="true"></i> Alphabet
                     </label>
                     <label className="filter_item filter_group"  data-state-category="filter-method" data-status="main" data-type="group">

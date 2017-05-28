@@ -27,52 +27,8 @@ class App extends React.Component {
             search: '',
             people: [],
             filter: {
-                method: [],
+                method: ['alphabet'],
                 visibility: false
-            }
-        };
-        this.people = contacts;
-        this.filterInfo = {
-            people: contacts,
-            priority: ['group', 'age', 'country', 'alphabet'],
-            methods: {
-                alphabet: function () {
-                    this.people.sort(function (prev, next) {
-                        let prevFullName = prev.name + ' ' + prev.surname,
-                            nextFullName = next.name + ' ' + next.surname;
-                        return prevFullName > nextFullName ? 1 : prevFullName !== nextFullName ? -1 : 0;
-                    })
-                },
-                age: function () {
-                    this.people.sort(function (prev, next) {
-                        let prevAge = prev.age,
-                            nextAge = next.age;
-                        return prevAge > nextAge ? 1 : prevAge !== nextAge ? -1 : 0;
-                    });
-                },
-                country: function () {
-                    this.people.sort(function (prev, next) {
-                        let prevAge = prev.country,
-                            nextAge = next.country;
-                        return prevAge > nextAge ? 1 : prevAge !== nextAge ? -1 : 0;
-                    });
-                },
-                group: function () {
-                    let groups = [],
-                        groupData = [];
-                    for (let key of this.people) {
-                        let currentGroup = key.group,
-                            groupIndex = groups.indexOf(key.group),
-                            fullName = key.name + ' ' + key.surname;
-
-                        !searchStr || fullName.slice(0, searchStr.length).toLowerCase() === searchStr
-                            ? !groupIndex
-                                ? (groups.push(currentGroup), groupData.push([key]))
-                                : groupData[groupIndex].push([key])
-                            : false;
-                    }
-                    this.people = groupData;
-                }
             }
         };
         this.handleState = this.handleState.bind(this);
@@ -82,132 +38,63 @@ class App extends React.Component {
 
     filterByMethods(actualMethods){
         let currentMethods = actualMethods ? actualMethods : this.state.filter.method,
-            priority = ['group', 'age', 'country', 'alphabet'],
-            searchStr = this.state.search.toLowerCase();
+            addFilter = currentMethods.indexOf('age') !== -1
+                ? 'age'
+                : currentMethods.indexOf('country') !== -1
+                    ? 'country'
+                    : false;
 
-        let methods = {
-            alphabet: function(){
-                this.people.sort(function(prev, next){
-                    let prevFullName = prev.name + ' ' + prev.surname,
-                        nextFullName = next.name + ' ' + next.surname;
-                    return prevFullName > nextFullName ? 1 : prevFullName !== nextFullName ? -1 : 0;
-                })
-            },
-            age: function(){
-                this.people.sort(function(prev, next){
-                    let prevAge = prev.age,
-                        nextAge = next.age;
-                    return prevAge > nextAge ? 1 : prevAge !== nextAge ? -1 : 0;
-                });
-            },
-            country: function(){
-                this.people.sort(function(prev, next){
-                    let prevAge = prev.country,
-                        nextAge = next.country;
-                    return prevAge > nextAge ? 1 : prevAge !== nextAge ? -1 : 0;
-                });
-            },
-            group: function(){
-                let groups = [],
-                    groupData = [];
-                for (let key of this.people) {
-                    let currentGroup = key.group,
-                        groupIndex = groups.indexOf(key.group),
-                        fullName = key.name + ' ' + key.surname;
+            this.people.sort(function(prev, next){
+                let prevFullName = prev.name + ' ' + prev.surname,
+                    nextFullName = next.name + ' ' + next.surname;
 
-                    !searchStr || fullName.slice(0, searchStr.length).toLowerCase() === searchStr
-                        ? !groupIndex
-                            ? (groups.push(currentGroup), groupData.push([key]))
-                            : groupData[groupIndex].push([key])
-                        : false;
-                }
-                this.people = groupData;
-            }
-        };
-
-        if(!this.state.filter.method.length){
-            methods.alphabet.call(this);
-        } else {
-            for(let i = priority.length-1;  i > 0; i--){
-                if(currentMethods.indexOf(priority[i]) !== -1){
-                    methods[priority[i]].call(this);
-                }
-            }
-        }
-    }
-
-    getProperties(key, value, options){
-        options = options ? options : [];
-        key ? options.push(key) : false;
-        return typeof value === "object"
-            ? !value.false
-                ? this.getProperties(value[0], value[1], options)
-                : [options, value.false]
-            : [options, value];
-    }
-
-    generateStateObj(data){
-        let obj = {}, currentObj = {};
-
-        for(var i = 0; i < data.length - 1; i++){
-            currentObj = {};
-
-            let dataItem = data[i], properties,
-                j = typeof dataItem !== "object" ? data : dataItem,
-                dataKey = j[0],
-                dataValue = j[1];
-
-            properties = this.getProperties(dataKey, dataValue);
-            let keys = properties[0],
-                value = properties[1];
-
-            for(let keyOptLen = keys.length - 1, k = keyOptLen; k >= 0; k--){
-                let o = {};
-                o[keys[k]] = Object.keys(currentObj).length ? currentObj : {$set: value};
-                currentObj = o;
-            }
-            Object.assign(obj, currentObj);
-        }
-        return obj;
-
+                return (currentMethods.indexOf('group') !== -1 ? (prev.group>next.group) - (next.group>prev.group) : false)
+                    || (currentMethods.indexOf(addFilter) !== -1 ? (prev[addFilter]>next[addFilter]) - (next[addFilter]>prev[addFilter]) : false)
+                    || (currentMethods.indexOf('alphabet') !== -1 ? (prevFullName>nextFullName) - (nextFullName>prevFullName) : false);
+            })
     }
 
     getData(element, search){
-        this.people = [];
+        let people = this.people = contacts;
         let searchString = search.toLowerCase().trim().replace( /\s+/g, ' ');
         if(searchString){
+            people = [];
             for (let key of contacts) {
                 let fullName = (key.name + ' ' + key.surname).toLowerCase();
                 fullName.slice(0, searchString.length) === searchString
-                    ? this.people.push(key)
+                    ? people.push(key)
                     : false;
             }
-        } else {
-            this.people = contacts;
         }
 
         this.filterByMethods();
-        this.handleState({
-            search: searchString,
-            people: this.people
+        this.handleState(null, {
+            search: {$set: searchString},
+            people: {$set: people}
         });
     }
 
-    handleState(obj){
-        var newState = update(this.state, obj);
-        this.setState(newState);
+    generateStateObj(jobj, keys, value){
+        let keysAmount = keys.length - 1;
+        for(let i = 0; i < keysAmount; ++i){
+            let currentKey = keys[i];
+            if(!(currentKey in jobj)){
+                jobj[currentKey] = {}
+            }
+            jobj = jobj[currentKey];
+        }
+        jobj[keys[keysAmount]] = {$set: value};
     }
 
     handleState(element, value) {
-        let elementData = element.dataset.stateCategory;
-
-        elementData = elementData.indexOf('-') !== -1 ? elementData.split('-') : elementData.split();
-
-        let [category, option] = [elementData[0], elementData[1]],
-            obj = this.generateStateObj([category, [option, value]]);
-
-        var newState = update(this.state, obj);
-        this.setState(newState);
+        let newState = value, obj = {};
+        if(element){
+            let keys = element.dataset.stateCategory;
+            keys = keys.indexOf('-') !== -1 ? keys.split('-') : keys.split();
+            this.generateStateObj(obj, keys, value);
+            newState = obj;
+        }
+        this.setState(update(this.state, newState));
     }
 
     selectSortType(e){
@@ -263,9 +150,9 @@ class App extends React.Component {
 
             activatingItem[filterStatus].call(this);
             this.filterByMethods(currentSortMethods);
-            this.handleState({
-                method: currentSortMethods,
-                people: this.people
+            this.handleState(null, {
+                filter: {method: {$set: currentSortMethods}},
+                people: {$set: this.people}
             });
 
 
@@ -274,8 +161,8 @@ class App extends React.Component {
 
     componentDidMount() {
         this.filterByMethods();
-        this.handleState({
-            people: this.people
+        this.handleState(null, {
+            people: {$set: contacts}
         });
     }
 

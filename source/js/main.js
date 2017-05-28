@@ -9472,8 +9472,7 @@ var Filter = exports.Filter = function Filter(props) {
         _react2.default.createElement(
             "div",
             { className: "filter_btn",
-                "data-category": "filter",
-                "data-option": "visibility",
+                "data-state-category": "filter-visibility",
                 onClick: function onClick(e) {
                     return props.onUserClick.btn(e.currentTarget, !props.value);
                 } },
@@ -9493,26 +9492,26 @@ var Filter = exports.Filter = function Filter(props) {
                         return props.onUserClick.sort(e);
                     } },
                 _react2.default.createElement(
-                    "span",
-                    { className: "filter_item filter_alphabet", "data-category": "filter", "data-option": "sort", "data-filter-type": "alphabet" },
+                    "label",
+                    { className: "filter_item filter_alphabet filter_item-active", "data-state-category": "filter-method", "data-status": "main", "data-type": "alphabet" },
                     _react2.default.createElement("i", { className: "icon fa fa-sort-alpha-asc", "aria-hidden": "true" }),
                     " Alphabet"
                 ),
                 _react2.default.createElement(
-                    "span",
-                    { className: "filter_item filter_age", "data-category": "filter", "data-option": "sort", "data-filter-type": "age" },
-                    _react2.default.createElement("i", { className: "icon fa fa-sort-numeric-asc", "aria-hidden": "true" }),
-                    " Age"
-                ),
-                _react2.default.createElement(
-                    "span",
-                    { className: "filter_item filter_group", "data-category": "filter", "data-option": "sort", "data-filter-type": "group" },
+                    "label",
+                    { className: "filter_item filter_group", "data-state-category": "filter-method", "data-status": "main", "data-type": "group" },
                     _react2.default.createElement("i", { className: "icon fa fa-users", "aria-hidden": "true" }),
                     " Group"
                 ),
                 _react2.default.createElement(
-                    "span",
-                    { className: "filter_item filter_country", "data-category": "filter", "data-option": "sort", "data-filter-type": "country" },
+                    "label",
+                    { className: "filter_item filter_age", "data-state-category": "filter-method", "data-status": "additional", "data-type": "age" },
+                    _react2.default.createElement("i", { className: "icon fa fa-sort-numeric-asc", "aria-hidden": "true" }),
+                    " Age"
+                ),
+                _react2.default.createElement(
+                    "label",
+                    { className: "filter_item filter_country", "data-state-category": "filter-method", "data-status": "additional", "data-type": "country" },
                     _react2.default.createElement("i", { className: "icon fa fa fa-globe", "aria-hidden": "true" }),
                     " Country"
                 )
@@ -9574,12 +9573,12 @@ var SearchBar = exports.SearchBar = function SearchBar(props) {
                 name: "search",
                 id: "search",
                 className: "search__input",
-                "data-category": "search",
+                "data-state-category": "search",
                 ref: function ref(input) {
                     return searchText = input;
                 },
                 onChange: function onChange(e) {
-                    return props.onUserChange(e, searchText.value);
+                    return props.onUserChange(e.currentTarget, searchText.value);
                 },
                 value: props.value.search }),
             _react2.default.createElement(
@@ -9611,6 +9610,7 @@ var contacts = exports.contacts = [{
     "picture": "http://placehold.it/32x32",
     "birthDate": "7.6.1978",
     "age": 39,
+    "country": "Australia",
     "group": "friends",
     "name": "Maribel",
     "surname": "Lindsay",
@@ -9626,7 +9626,8 @@ var contacts = exports.contacts = [{
     "picture": "http://placehold.it/32x32",
     "birthDate": "5.8.1964",
     "age": 53,
-    "group": "cooworkers",
+    "country": "China",
+    "group": "coworkers",
     "name": "Ada",
     "surname": "Hood",
     "gender": "female",
@@ -9641,6 +9642,7 @@ var contacts = exports.contacts = [{
     "picture": "http://placehold.it/32x32",
     "birthDate": "2.9.1996",
     "age": 21,
+    "country": "Australia",
     "group": "friends",
     "name": "Vonda",
     "surname": "Morgan",
@@ -9656,7 +9658,8 @@ var contacts = exports.contacts = [{
     "picture": "http://placehold.it/32x32",
     "birthDate": "3.21.1986",
     "age": 31,
-    "group": "cooworkers",
+    "country": "China",
+    "group": "coworkers",
     "name": "Dejesus",
     "surname": "Gonzales",
     "gender": "male",
@@ -9671,6 +9674,7 @@ var contacts = exports.contacts = [{
     "picture": "http://placehold.it/32x32",
     "birthDate": "9.19.2001",
     "age": 16,
+    "country": "Australia",
     "group": "family",
     "name": "Gonzalez",
     "surname": "Frost",
@@ -9686,6 +9690,7 @@ var contacts = exports.contacts = [{
     "picture": "http://placehold.it/32x32",
     "birthDate": "1.12.2001",
     "age": 16,
+    "country": "Canada",
     "group": "schoolmates",
     "name": "Willis",
     "surname": "Clemons",
@@ -9701,6 +9706,7 @@ var contacts = exports.contacts = [{
     "picture": "http://placehold.it/32x32",
     "birthDate": "8.20.1992",
     "age": 25,
+    "country": "Australia",
     "group": "family",
     "name": "Kirsten",
     "surname": "Cooke",
@@ -9716,7 +9722,8 @@ var contacts = exports.contacts = [{
     "picture": "http://placehold.it/32x32",
     "birthDate": "4.20.2006",
     "age": 11,
-    "group": "cooworkers",
+    "country": "China",
+    "group": "coworkers",
     "name": "Stella",
     "surname": "Bradley",
     "gender": "female",
@@ -9731,6 +9738,7 @@ var contacts = exports.contacts = [{
     "picture": "http://placehold.it/32x32",
     "birthDate": "4.21.1968",
     "age": 49,
+    "country": "Australia",
     "group": "family",
     "name": "Tracie",
     "surname": "Lambert",
@@ -9746,6 +9754,7 @@ var contacts = exports.contacts = [{
     "picture": "http://placehold.it/32x32",
     "birthDate": "8.3.1987",
     "age": 30,
+    "country": "Japan",
     "group": "friends",
     "name": "Elvia",
     "surname": "Marquez",
@@ -9761,6 +9770,7 @@ var contacts = exports.contacts = [{
     "picture": "http://placehold.it/32x32",
     "birthDate": "12.18.1991",
     "age": 26,
+    "country": "Australia",
     "group": "family",
     "name": "Gilmore",
     "surname": "Yang",
@@ -9776,7 +9786,8 @@ var contacts = exports.contacts = [{
     "picture": "http://placehold.it/32x32",
     "birthDate": "12.8.1985",
     "age": 32,
-    "group": "cooworkers",
+    "country": "United States",
+    "group": "coworkers",
     "name": "Adrian",
     "surname": "Mullen",
     "gender": "female",
@@ -9791,6 +9802,7 @@ var contacts = exports.contacts = [{
     "picture": "http://placehold.it/32x32",
     "birthDate": "5.28.1968",
     "age": 49,
+    "country": "Australia",
     "group": "family",
     "name": "Celina",
     "surname": "Solis",
@@ -9806,7 +9818,8 @@ var contacts = exports.contacts = [{
     "picture": "http://placehold.it/32x32",
     "birthDate": "11.2.1960",
     "age": 57,
-    "group": "cooworkers",
+    "country": "United States",
+    "group": "coworkers",
     "name": "Hogan",
     "surname": "Bryant",
     "gender": "male",
@@ -9821,6 +9834,7 @@ var contacts = exports.contacts = [{
     "picture": "http://placehold.it/32x32",
     "birthDate": "3.14.1983",
     "age": 34,
+    "country": "Canada",
     "group": "schoolmates",
     "name": "Cabrera",
     "surname": "Mcpherson",
@@ -9836,7 +9850,8 @@ var contacts = exports.contacts = [{
     "picture": "http://placehold.it/32x32",
     "birthDate": "2.17.1965",
     "age": 52,
-    "group": "cooworkers",
+    "country": "United States",
+    "group": "coworkers",
     "name": "Joyce",
     "surname": "Velasquez",
     "gender": "female",
@@ -9851,6 +9866,7 @@ var contacts = exports.contacts = [{
     "picture": "http://placehold.it/32x32",
     "birthDate": "4.29.1985",
     "age": 32,
+    "country": "Spain",
     "group": "family",
     "name": "Lindsey",
     "surname": "Blake",
@@ -9866,6 +9882,7 @@ var contacts = exports.contacts = [{
     "picture": "http://placehold.it/32x32",
     "birthDate": "11.4.1977",
     "age": 40,
+    "country": "Spain",
     "group": "family",
     "name": "Warner",
     "surname": "Donaldson",
@@ -9881,7 +9898,8 @@ var contacts = exports.contacts = [{
     "picture": "http://placehold.it/32x32",
     "birthDate": "10.3.1986",
     "age": 31,
-    "group": "cooworkers",
+    "country": "China",
+    "group": "coworkers",
     "name": "Lana",
     "surname": "Pace",
     "gender": "female",
@@ -9896,6 +9914,7 @@ var contacts = exports.contacts = [{
     "picture": "http://placehold.it/32x32",
     "birthDate": "9.23.1995",
     "age": 22,
+    "country": "Spain",
     "group": "family",
     "name": "Gina",
     "surname": "Ferguson",
@@ -9917,8 +9936,7 @@ var contacts = exports.contacts = [{
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+exports.default = CreateList;
 
 var _react = __webpack_require__(25);
 
@@ -9926,54 +9944,23 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Created by micrastur on 19.02.2017.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
-
-
-var CreateList = function (_React$Component) {
-    _inherits(CreateList, _React$Component);
-
-    function CreateList() {
-        _classCallCheck(this, CreateList);
-
-        return _possibleConstructorReturn(this, (CreateList.__proto__ || Object.getPrototypeOf(CreateList)).apply(this, arguments));
-    }
-
-    _createClass(CreateList, [{
-        key: 'render',
-        value: function render() {
-            return _react2.default.createElement(
-                'div',
-                null,
-                _react2.default.createElement(
-                    'h2',
-                    null,
-                    this.props.value[0].group
-                ),
-                _react2.default.createElement(
-                    'ul',
-                    null,
-                    this.props.value.map(function (value, index) {
-                        return _react2.default.createElement(
-                            'li',
-                            { key: "item-" + index },
-                            value.name + ' ' + value.surname
-                        );
-                    })
-                )
-            );
-        }
-    }]);
-
-    return CreateList;
-}(_react2.default.Component);
-
-exports.default = CreateList;
+function CreateList(props) {
+    return (
+        //<div>
+        //    <h2>{this.props.value[0].group}</h2>
+        //    <ul>
+        //        {this.props.value.map((value, index) =>
+        //                <li key={"item-" + index}>{value.name + ' ' + value.surname}</li>
+        //        )}
+        //    </ul>
+        //</div>
+        _react2.default.createElement(
+            'li',
+            null,
+            props.value.name + ' ' + props.value.surname + ': ' + props.value.country + ' - ' + props.value.group + ' - ' + props.value.age
+        )
+    );
+}
 
 /***/ }),
 /* 84 */
@@ -22412,8 +22399,6 @@ module.exports = traverseAllChildren;
 "use strict";
 
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(25);
@@ -22468,138 +22453,208 @@ var App = function (_React$Component) {
             search: '',
             people: [],
             filter: {
-                sort: [],
+                method: ['alphabet'],
                 visibility: false
             }
         };
         _this.handleState = _this.handleState.bind(_this);
         _this.selectSortType = _this.selectSortType.bind(_this);
+        _this.getData = _this.getData.bind(_this);
         return _this;
     }
 
     _createClass(App, [{
-        key: 'sortData',
-        value: function sortData(value) {
-            this.state.people = [];
-            var groups = [],
-                search = value.toLowerCase();
-            var _iteratorNormalCompletion = true;
-            var _didIteratorError = false;
-            var _iteratorError = undefined;
+        key: 'filterByMethods',
+        value: function filterByMethods(actualMethods) {
+            var currentMethods = actualMethods ? actualMethods : this.state.filter.method,
+                addFilter = currentMethods.indexOf('age') !== -1 ? 'age' : currentMethods.indexOf('country') !== -1 ? 'country' : false;
 
-            try {
-                for (var _iterator = _data.contacts[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                    var key = _step.value;
+            this.people.sort(function (prev, next) {
+                var prevFullName = prev.name + ' ' + prev.surname,
+                    nextFullName = next.name + ' ' + next.surname;
 
-                    var currentGroup = key.group,
-                        groupIndex = groups.indexOf(key.group);
-
-                    search ? key.name.slice(0, search.length).toLowerCase() === search || key.surname.slice(0, search.length).toLowerCase() === search ? groupIndex === -1 ? (this.state.people.push([key]), groups.push(currentGroup)) : this.state.people[groupIndex].push(key) : false : groupIndex === -1 ? (this.state.people.push([key]), groups.push(currentGroup)) : this.state.people[groupIndex].push(key);
-                }
-            } catch (err) {
-                _didIteratorError = true;
-                _iteratorError = err;
-            } finally {
-                try {
-                    if (!_iteratorNormalCompletion && _iterator.return) {
-                        _iterator.return();
-                    }
-                } finally {
-                    if (_didIteratorError) {
-                        throw _iteratorError;
-                    }
-                }
-            }
-
-            if (!search) {
-                this.sortByAlphabet();
-            }
-        }
-    }, {
-        key: 'sortByAlphabet',
-        value: function sortByAlphabet() {
-            this.state.people.sort(function (prev, next) {
-                return prev[0].group > next[0].group ? 1 : prev[0].group < next[0].group ? -1 : 0;
+                return (currentMethods.indexOf('group') !== -1 ? (prev.group > next.group) - (next.group > prev.group) : false) || (currentMethods.indexOf(addFilter) !== -1 ? (prev[addFilter] > next[addFilter]) - (next[addFilter] > prev[addFilter]) : false) || (currentMethods.indexOf('alphabet') !== -1 ? (prevFullName > nextFullName) - (nextFullName > prevFullName) : false);
             });
         }
     }, {
-        key: 'getProperties',
-        value: function getProperties(key, value, options) {
-            options = options ? options : [];
-            key ? options.push(key) : false;
-            return (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === "object" ? !value.false ? this.getProperties(value[0], value[1], options) : [options, value.false] : [options, value];
+        key: 'getData',
+        value: function getData(element, search) {
+            var people = this.people = _data.contacts;
+            var searchString = search.toLowerCase().trim().replace(/\s+/g, ' ');
+            if (searchString) {
+                people = [];
+                var _iteratorNormalCompletion = true;
+                var _didIteratorError = false;
+                var _iteratorError = undefined;
+
+                try {
+                    for (var _iterator = _data.contacts[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                        var key = _step.value;
+
+                        var fullName = (key.name + ' ' + key.surname).toLowerCase();
+                        fullName.slice(0, searchString.length) === searchString ? people.push(key) : false;
+                    }
+                } catch (err) {
+                    _didIteratorError = true;
+                    _iteratorError = err;
+                } finally {
+                    try {
+                        if (!_iteratorNormalCompletion && _iterator.return) {
+                            _iterator.return();
+                        }
+                    } finally {
+                        if (_didIteratorError) {
+                            throw _iteratorError;
+                        }
+                    }
+                }
+            }
+
+            this.filterByMethods();
+            this.handleState(null, {
+                search: { $set: searchString },
+                people: { $set: people }
+            });
         }
     }, {
         key: 'generateStateObj',
-        value: function generateStateObj(data) {
-            var obj = {},
-                currentObj = {};
-
-            for (var i = 0; i < data.length - 1; i++) {
-                currentObj = {};
-
-                var dataItem = data[i],
-                    properties = void 0,
-                    j = (typeof dataItem === 'undefined' ? 'undefined' : _typeof(dataItem)) !== "object" ? data : dataItem,
-                    dataKey = j[0],
-                    dataValue = j[1];
-
-                properties = this.getProperties(dataKey, dataValue);
-                var keys = properties[0],
-                    value = properties[1];
-
-                for (var keyOptLen = keys.length - 1, k = keyOptLen; k >= 0; k--) {
-                    var o = {};
-                    o[keys[k]] = Object.keys(currentObj).length ? currentObj : { $set: value };
-                    currentObj = o;
+        value: function generateStateObj(jobj, keys, value) {
+            var keysAmount = keys.length - 1;
+            for (var i = 0; i < keysAmount; ++i) {
+                var currentKey = keys[i];
+                if (!(currentKey in jobj)) {
+                    jobj[currentKey] = {};
                 }
-                Object.assign(obj, currentObj);
+                jobj = jobj[currentKey];
             }
-            return obj;
+            jobj[keys[keysAmount]] = { $set: value };
         }
     }, {
         key: 'handleState',
         value: function handleState(element, value) {
-            var elementData = element.dataset,
-                _ref = [elementData.category, elementData.option],
-                category = _ref[0],
-                option = _ref[1],
-                obj = this.generateStateObj([category, [option, value]]),
-                newState = (0, _reactAddonsUpdate2.default)(this.state, obj);
-
-
-            this.setState(newState);
+            var newState = value,
+                obj = {};
+            if (element) {
+                var keys = element.dataset.stateCategory;
+                keys = keys.indexOf('-') !== -1 ? keys.split('-') : keys.split();
+                this.generateStateObj(obj, keys, value);
+                newState = obj;
+            }
+            this.setState((0, _reactAddonsUpdate2.default)(this.state, newState));
         }
     }, {
         key: 'selectSortType',
         value: function selectSortType(e) {
-            var targetElement = e.target,
-                currentTarget = e.currentTarget;
+            var _this2 = this;
+
+            e.stopPropagation();
+            e.preventDefault();
+            var _ref = [e.target, e.currentTarget],
+                targetElement = _ref[0],
+                currentTarget = _ref[1];
+
 
             if (targetElement !== currentTarget) {
-                var filterElem = targetElement.getAttribute("data-filter-type") ? targetElement : targetElement.parentElement,
-                    filterType = filterElem.getAttribute("data-filter-type"),
-                    activeClass = "filter_item-active",
-                    currentSortTypes = this.state.filter.sort,
-                    existedSortTypeIndex = currentSortTypes.indexOf(filterType),
-                    currentSortMethods = {
-                    false: currentSortTypes
-                };
+                (function () {
+                    var filterElem = targetElement.getAttribute("data-type") ? targetElement : targetElement.parentElement,
+                        _ref2 = [filterElem.dataset.type, filterElem.dataset.status, 'filter_item-active'],
+                        filterType = _ref2[0],
+                        filterStatus = _ref2[1],
+                        activeItem = _ref2[2],
+                        activeAddElem = document.querySelectorAll('.filter_item-active[data-status="additional"]')[0],
+                        currentSortMethods = [].concat(_this2.state.filter.method),
+                        activatingItem = {
+                        main: function main() {
 
-                existedSortTypeIndex !== -1 ? currentSortTypes.splice(existedSortTypeIndex, 1) : currentSortTypes = currentSortTypes.concat(filterType);
+                            currentSortMethods.indexOf(filterType) !== -1 ? currentSortMethods.splice(currentSortMethods.indexOf(filterType), 1) : currentSortMethods.push(filterType);
 
-                currentSortMethods.false = currentSortTypes;
+                            filterElem.classList.contains(activeItem) ? filterElem.classList.remove(activeItem) : filterElem.classList.add(activeItem);
+                        },
+                        additional: function additional() {
+                            var typeElems = document.querySelectorAll('[data-status=\'' + filterStatus + '\']'),
+                                typeElemsValue = [];
 
-                filterElem.classList.contains(activeClass) ? filterElem.classList.remove(activeClass) : filterElem.classList.add(activeClass);
+                            var _iteratorNormalCompletion2 = true;
+                            var _didIteratorError2 = false;
+                            var _iteratorError2 = undefined;
 
-                this.handleState(filterElem, currentSortMethods);
+                            try {
+                                for (var _iterator2 = typeElems[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                                    var key = _step2.value;
+
+                                    key.dataset.type !== filterType ? typeElemsValue.push(key.dataset.type) : false;
+                                }
+                            } catch (err) {
+                                _didIteratorError2 = true;
+                                _iteratorError2 = err;
+                            } finally {
+                                try {
+                                    if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                                        _iterator2.return();
+                                    }
+                                } finally {
+                                    if (_didIteratorError2) {
+                                        throw _iteratorError2;
+                                    }
+                                }
+                            }
+
+                            var _iteratorNormalCompletion3 = true;
+                            var _didIteratorError3 = false;
+                            var _iteratorError3 = undefined;
+
+                            try {
+                                for (var _iterator3 = typeElemsValue[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+                                    var _key = _step3.value;
+
+                                    if (currentSortMethods.indexOf(_key) !== -1) {
+                                        currentSortMethods.splice(currentSortMethods.indexOf(_key), 1);
+                                    }
+                                }
+                            } catch (err) {
+                                _didIteratorError3 = true;
+                                _iteratorError3 = err;
+                            } finally {
+                                try {
+                                    if (!_iteratorNormalCompletion3 && _iterator3.return) {
+                                        _iterator3.return();
+                                    }
+                                } finally {
+                                    if (_didIteratorError3) {
+                                        throw _iteratorError3;
+                                    }
+                                }
+                            }
+
+                            activeAddElem === filterElem ? currentSortMethods.splice(currentSortMethods.indexOf(filterType), 1) : currentSortMethods.push(filterType);
+
+                            activeAddElem ? activeAddElem.classList.remove(activeItem) : false;
+
+                            filterElem === activeAddElem ? filterElem.classList.remove(activeItem) : filterElem.classList.add(activeItem);
+                        }
+                    };
+
+
+                    activatingItem[filterStatus].call(_this2);
+                    _this2.filterByMethods(currentSortMethods);
+                    _this2.handleState(null, {
+                        filter: { method: { $set: currentSortMethods } },
+                        people: { $set: _this2.people }
+                    });
+                })();
             }
+        }
+    }, {
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            this.filterByMethods();
+            this.handleState(null, {
+                people: { $set: _data.contacts }
+            });
         }
     }, {
         key: 'render',
         value: function render() {
-            console.log(this.state.filter.sort);
-            this.sortData(this.state.search);
             return _react2.default.createElement(
                 'div',
                 null,
@@ -22612,7 +22667,7 @@ var App = function (_React$Component) {
                         _react2.default.createElement(
                             Header,
                             null,
-                            _react2.default.createElement(_search.SearchBar, { onUserChange: this.handleState, value: this.state }),
+                            _react2.default.createElement(_search.SearchBar, { onUserChange: this.getData, value: this.state }),
                             _react2.default.createElement(_filter.Filter, { onUserClick: { btn: this.handleState, sort: this.selectSortType }, value: this.state.filter.visibility })
                         )
                     )
@@ -22623,9 +22678,13 @@ var App = function (_React$Component) {
                     _react2.default.createElement(
                         'div',
                         { className: 'container' },
-                        this.state.people.map(function (value, index) {
-                            return _react2.default.createElement(_list2.default, { key: "list-" + index, value: value });
-                        })
+                        _react2.default.createElement(
+                            'ul',
+                            null,
+                            this.state.people.map(function (value, index) {
+                                return _react2.default.createElement(_list2.default, { key: "list-" + index, value: value });
+                            })
+                        )
                     )
                 )
             );
