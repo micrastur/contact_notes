@@ -6,7 +6,7 @@ export let contacts = [
     {
         "_id": "58a9d15597c77d12641f3b7a",
         "index": 0,
-        "picture": "http://placehold.it/32x32",
+        "picture": "user-1.png",
         "birthDate": "7.6.1978",
         "age": 39,
         "country": "Australia",
@@ -23,7 +23,7 @@ export let contacts = [
     {
         "_id": "58a9d155a893d62bc151cb93",
         "index": 1,
-        "picture": "http://placehold.it/32x32",
+        "picture": "user-2.png",
         "birthDate": "5.8.1964",
         "age": 53,
         "country": "China",
@@ -40,7 +40,7 @@ export let contacts = [
     {
         "_id": "58a9d155b79f7b3742638285",
         "index": 2,
-        "picture": "http://placehold.it/32x32",
+        "picture": "user-3.png",
         "birthDate": "2.9.1996",
         "age": 21,
         "country": "Australia",
@@ -57,7 +57,7 @@ export let contacts = [
     {
         "_id": "58a9d1552076463d7806083e",
         "index": 3,
-        "picture": "http://placehold.it/32x32",
+        "picture": "user-4.png",
         "birthDate": "3.21.1986",
         "age": 31,
         "country": "China",
@@ -74,7 +74,7 @@ export let contacts = [
     {
         "_id": "58a9d155d041fdb183bf985f",
         "index": 4,
-        "picture": "http://placehold.it/32x32",
+        "picture": "user-5.png",
         "birthDate": "9.19.2001",
         "age": 16,
         "country": "Australia",
@@ -91,7 +91,7 @@ export let contacts = [
     {
         "_id": "58a9d155413a9de5a40a6a51",
         "index": 5,
-        "picture": "http://placehold.it/32x32",
+        "picture": "user-6.png",
         "birthDate": "1.12.2001",
         "age": 16,
         "country": "Canada",
@@ -108,7 +108,7 @@ export let contacts = [
     {
         "_id": "58a9d155b2fc44b868b37ac3",
         "index": 6,
-        "picture": "http://placehold.it/32x32",
+        "picture": "user-7.png",
         "birthDate": "8.20.1992",
         "age": 25,
         "country": "Australia",
@@ -125,7 +125,7 @@ export let contacts = [
     {
         "_id": "58a9d155c29c83e1db16f816",
         "index": 7,
-        "picture": "http://placehold.it/32x32",
+        "picture": "user-8.png",
         "birthDate": "4.20.2006",
         "age": 11,
         "country": "China",
@@ -142,7 +142,7 @@ export let contacts = [
     {
         "_id": "58a9d155b736f765bec01567",
         "index": 8,
-        "picture": "http://placehold.it/32x32",
+        "picture": "user-9.png",
         "birthDate": "4.21.1968",
         "age": 49,
         "country": "Australia",
@@ -159,7 +159,7 @@ export let contacts = [
     {
         "_id": "58a9d15556188851312109fe",
         "index": 9,
-        "picture": "http://placehold.it/32x32",
+        "picture": "user-10.png",
         "birthDate": "8.3.1987",
         "age": 30,
         "country": "Japan",
@@ -176,7 +176,7 @@ export let contacts = [
     {
         "_id": "58a9d1559cb5a02c92ed633a",
         "index": 10,
-        "picture": "http://placehold.it/32x32",
+        "picture": "user-11.png",
         "birthDate": "12.18.1991",
         "age": 26,
         "country": "Australia",
@@ -193,7 +193,7 @@ export let contacts = [
     {
         "_id": "58a9d155ef381c5c9b9c3f55",
         "index": 11,
-        "picture": "http://placehold.it/32x32",
+        "picture": "user-12.png",
         "birthDate": "12.8.1985",
         "age": 32,
         "country": "United States",
@@ -210,7 +210,7 @@ export let contacts = [
     {
         "_id": "58a9d1557c0267403bcd2d40",
         "index": 12,
-        "picture": "http://placehold.it/32x32",
+        "picture": "user-13.png",
         "birthDate": "5.28.1968",
         "age": 49,
         "country": "Australia",
@@ -227,7 +227,7 @@ export let contacts = [
     {
         "_id": "58a9d155a0677f14eb1ad117",
         "index": 13,
-        "picture": "http://placehold.it/32x32",
+        "picture": "user-1.png",
         "birthDate": "11.2.1960",
         "age": 57,
         "country": "United States",
@@ -244,7 +244,7 @@ export let contacts = [
     {
         "_id": "58a9d155a8dfeeb794fddff5",
         "index": 14,
-        "picture": "http://placehold.it/32x32",
+        "picture": "user-14.png",
         "birthDate": "3.14.1983",
         "age": 34,
         "country": "Canada",
@@ -261,7 +261,7 @@ export let contacts = [
     {
         "_id": "58a9d1559c6637a376578030",
         "index": 15,
-        "picture": "http://placehold.it/32x32",
+        "picture": "user-15.png",
         "birthDate": "2.17.1965",
         "age": 52,
         "country": "United States",
@@ -278,7 +278,7 @@ export let contacts = [
     {
         "_id": "58a9d155b9b7d190ab878c7c",
         "index": 16,
-        "picture": "http://placehold.it/32x32",
+        "picture": "user-16.png",
         "birthDate": "4.29.1985",
         "age": 32,
         "country": "Spain",
@@ -295,7 +295,7 @@ export let contacts = [
     {
         "_id": "58a9d155513e79ba9b54279b",
         "index": 17,
-        "picture": "http://placehold.it/32x32",
+        "picture": "user-17.png",
         "birthDate": "11.4.1977",
         "age": 40,
         "country": "Spain",
@@ -312,7 +312,7 @@ export let contacts = [
     {
         "_id": "58a9d1551df3c481f53af39b",
         "index": 18,
-        "picture": "http://placehold.it/32x32",
+        "picture": "user-18.png",
         "birthDate": "10.3.1986",
         "age": 31,
         "country": "China",
@@ -329,7 +329,7 @@ export let contacts = [
     {
         "_id": "58a9d155ae58799c5444bc06",
         "index": 19,
-        "picture": "http://placehold.it/32x32",
+        "picture": "user-19.png",
         "birthDate": "9.23.1995",
         "age": 22,
         "country": "Spain",
