@@ -25,7 +25,7 @@ class App extends React.Component {
         super();
         this.state = {
             search: '',
-            people: [],
+            people: contacts,
             filter: {
                 method: ['alphabet'],
                 visibility: false
@@ -41,28 +41,28 @@ class App extends React.Component {
             addFilter = currentMethods.indexOf('age') !== -1
                 ? 'age'
                 : currentMethods.indexOf('country') !== -1
-                    ? 'country'
-                    : false;
+                ? 'country'
+                : false;
 
-            this.people.sort(function(prev, next){
-                let prevFullName = prev.name + ' ' + prev.surname,
-                    nextFullName = next.name + ' ' + next.surname;
+        this.people.sort(function(prev, next){
+            let prevFullName = prev.name + ' ' + prev.surname,
+                nextFullName = next.name + ' ' + next.surname;
 
-                return (currentMethods.indexOf('group') !== -1 ? (prev.group>next.group) - (next.group>prev.group) : false)
-                    || (currentMethods.indexOf(addFilter) !== -1 ? (prev[addFilter]>next[addFilter]) - (next[addFilter]>prev[addFilter]) : false)
-                    || (currentMethods.indexOf('alphabet') !== -1 ? (prevFullName>nextFullName) - (nextFullName>prevFullName) : false);
-            })
+            return (currentMethods.indexOf('group') !== -1 ? (prev.group>next.group) - (next.group>prev.group) : false)
+                || (currentMethods.indexOf(addFilter) !== -1 ? (prev[addFilter]>next[addFilter]) - (next[addFilter]>prev[addFilter]) : false)
+                || (currentMethods.indexOf('alphabet') !== -1 ? (prevFullName>nextFullName) - (nextFullName>prevFullName) : false);
+        })
     }
 
-    getData(element, search){
-        let people = this.people = contacts;
+    getData(search){
+        this.people = contacts;
         let searchString = search.toLowerCase().trim().replace( /\s+/g, ' ');
         if(searchString){
-            people = [];
+            this.people = [];
             for (let key of contacts) {
                 let fullName = (key.name + ' ' + key.surname).toLowerCase();
                 fullName.slice(0, searchString.length) === searchString
-                    ? people.push(key)
+                    ? this.people.push(key)
                     : false;
             }
         }
@@ -70,7 +70,7 @@ class App extends React.Component {
         this.filterByMethods();
         this.handleState(null, {
             search: {$set: searchString},
-            people: {$set: people}
+            people: {$set: this.people}
         });
     }
 
@@ -160,6 +160,7 @@ class App extends React.Component {
     }
 
     componentDidMount() {
+        this.people = contacts;
         this.filterByMethods();
         this.handleState(null, {
             people: {$set: contacts}
@@ -180,11 +181,7 @@ class App extends React.Component {
                 </header>
                 <div className="main">
                     <div className="container">
-                        <ul>
-                            {this.state.people.map((value, index) =>
-                                <CreateList key={"list-" + index} value={value}/>
-                            )}
-                        </ul>
+                        <CreateList people={this.state.people} method={this.state.filter.method}/>
                     </div>
                 </div>
             </div>
