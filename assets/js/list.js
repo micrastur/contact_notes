@@ -1,4 +1,5 @@
 import React from 'react';
+import "../../css/list.css"
 
 export default function CreateList(props) {
     let [methods, people, groups, list] = [props.method, props.people, [], []],
@@ -15,7 +16,7 @@ export default function CreateList(props) {
         }
     }
     return (
-        <div>
+        <div className="list_container">
             {
                 filterByGroup
                     ? (<GenerateGroupLists value={list} />)
@@ -29,13 +30,13 @@ export default function CreateList(props) {
 
 function GenerateGroupLists(list){
     let groupList = list.value.map((value, item) =>
-        <div key={value[0].group}>
-            <h2>{value[0].group}</h2>
+        <div className="group_item" key={value[0].group}>
+            <h2 className="group_heading">{value[0].group}</h2>
             <GetList value={value}/>
         </div>
     );
     return (
-        <div>
+        <div className="group_list">
             {groupList}
         </div>
     )
@@ -43,8 +44,11 @@ function GenerateGroupLists(list){
 
 function GetList(list){
     let listItems = list.value.map((value, item) =>
-        <li key={`list-${item}`}>
-            {value.name + ' ' + value.surname + ': ' + value.country + ' - ' + value.group + ' - ' + value.age}
+        <li key={`list-${item}`} className="list_item">
+            <img className="list_image" src={`/contact_notes/assets/img/people/${value.picture}`} alt=""/>
+            <span>
+                {value.name + ' ' + value.surname + ': ' + value.country + ' - ' + value.group + ' - ' + value.age}
+            </span>
         </li>
     );
 
