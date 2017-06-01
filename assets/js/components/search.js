@@ -13,7 +13,7 @@ export const SearchBar = (props) => {
                        className="search__input"
                        data-state-category="search"
                        ref={input => (searchText = input)}
-                       onChange = {(e) => props.onUserChange(e.currentTarget, searchText.value)}
+                       onChange = {(e) => props.onUserChange(searchText.value)}
                        value={props.value.search}/>
                 <div className="search__icon">
                     <i className="fa fa-search" aria-hidden="true"></i>

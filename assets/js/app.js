@@ -4,7 +4,7 @@ import update from 'react-addons-update';
 
 import {contacts} from "./data";
 
-import CreateList from "./list";
+import CreateList from "./components/list";
 import {SearchBar} from "./components/search";
 import {Filter} from "./components/filter";
 
@@ -25,11 +25,12 @@ class App extends React.Component {
         super();
         this.state = {
             search: '',
-            people: contacts,
+            people: [],
             filter: {
                 method: ['alphabet'],
                 visibility: false
-            }
+            },
+
         };
         this.handleState = this.handleState.bind(this);
         this.selectSortType = this.selectSortType.bind(this);
@@ -56,12 +57,12 @@ class App extends React.Component {
 
     getData(search){
         this.people = contacts;
-        let searchString = search.toLowerCase().trim().replace( /\s+/g, ' ');
+        let searchString = search.replace( /\s+/g, ' ');
         if(searchString){
             this.people = [];
             for (let key of contacts) {
                 let fullName = (key.name + ' ' + key.surname).toLowerCase();
-                fullName.slice(0, searchString.length) === searchString
+                fullName.slice(0, searchString.length) === searchString.toLowerCase()
                     ? this.people.push(key)
                     : false;
             }

@@ -1,5 +1,5 @@
 import React from 'react';
-import "../../css/list.css"
+import "../../css/list.css";
 
 export default function CreateList(props) {
     let [methods, people, groups, list] = [props.method, props.people, [], []],
@@ -44,8 +44,8 @@ function GenerateGroupLists(list){
 
 function GetList(list){
     let listItems = list.value.map((value, item) =>
-        <li key={`list-${item}`} className="list_item">
-            <img className="list_image" src={`/contact_notes/assets/img/people/${value.picture}`} alt=""/>
+        <li key={`list-${item}`} className={`list_item ${item === 0 ? 'list_item_active' : false}`}>
+            <img className="list_image" src={`/assets/img/people/${value.picture}`} alt=""/>
             <span>
                 {value.name + ' ' + value.surname + ': ' + value.country + ' - ' + value.group + ' - ' + value.age}
             </span>

@@ -91,32 +91,3 @@ header {
     text-align: center;
     width: 24px;
 }
-
-
-
-.list_container {
-    margin: 60px 0;
-}
-
-.list_image {
-    border: 5px solid #fff;
-    width: 35px;
-    height: 35px;
-}
-
-.group_item {
-    border: 5px solid #ffebbd;
-    border-radius: 10px;
-    margin-bottom: 30px;
-}
-
-.group_heading {
-    background-color: #ffebbd;
-    padding: 15px 20px;
-    text-transform: capitalize;
-    font-weight: 400;
-}
-
-.group_item ul {
-    padding: 15px 20px;
-}
