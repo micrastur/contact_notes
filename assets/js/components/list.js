@@ -1,60 +1,81 @@
 import React from 'react';
-import "../../css/list.css";
+import "../../css/list.css"
 
-export default function CreateList(props) {
-    let [methods, people, groups, list] = [props.method, props.people, [], []],
-        filterByGroup = methods.indexOf('group') !== -1;
+export default class CreateList extends React.Component {
+    constructor(props){
+        super(props);
+    }
 
-    if(filterByGroup){
-        for(let key of people) {
-            let currentGroup = key.group,
-                groupIndex = groups.indexOf(currentGroup);
+    generateGroupLists(){
+        let groupList = this.people.map((value, item) =>
+                <div className="group_item" key={value[0].group}>
+                    <h2 className="group_heading">{value[0].group}</h2>
+                    {this.getList(value, item)}
+                </div>
+        );
+        return (
+            <div className="group_list">
+                {groupList}
+            </div>
+        )
+    }
 
-            groupIndex === -1
-                ? (groups.push(currentGroup), list.push([key]))
-                : list[groupIndex].push(key);
+    activateItem(e){
+        let targetElement = e.target.tagName.toLowerCase() === 'li' ? e.target : e.target.parentElement,
+            currentTarget = e.currentTarget,
+            activeClass = 'list_item-active',
+            activeListElement = document.getElementsByClassName(activeClass)[0];
+
+        if(targetElement !== currentTarget && activeListElement){
+            activeListElement.classList.remove(activeClass);
+            targetElement.classList.add(activeClass);
         }
     }
-    return (
-        <div className="list_container">
-            {
-                filterByGroup
-                    ? (<GenerateGroupLists value={list} />)
-                    : (<GetList value={people} />)
+
+    getList(list, groupItem){
+        let currentList = list ? list : this.props.people,
+            listItems = currentList.map((value, item) => {
+                let curItem = groupItem ? groupItem : item;
+                return <li key={`list-${item}`} className={'list_item ' + (curItem === 0 ? 'list_item-active' : false)}>
+                        <img className="list_image" src={`/contact_notes/assets/img/people/${value.picture}`} alt=""/>
+                    <span>
+                        {value.name + ' ' + value.surname + ': ' + value.country + ' - ' + value.group + ' - ' + value.age}
+                    </span>
+                    </li>
+                }
+        );
+
+        return (
+
+            <ul onClick={this.activateItem}>
+                {listItems}
+            </ul>
+        )
+    }
+
+    render(){
+        let [data, groups, list] = [this.props, [], []],
+            filterByGroup = data.method.indexOf('group') !== -1;
+
+        if(filterByGroup){
+            for(let key of data.people) {
+                let currentGroup = key.group,
+                    groupIndex = groups.indexOf(currentGroup);
+
+                groupIndex === -1
+                    ? (groups.push(currentGroup), list.push([key]))
+                    : list[groupIndex].push(key);
             }
-        </div>
-    )
-
-
-}
-
-function GenerateGroupLists(list){
-    let groupList = list.value.map((value, item) =>
-        <div className="group_item" key={value[0].group}>
-            <h2 className="group_heading">{value[0].group}</h2>
-            <GetList value={value}/>
-        </div>
-    );
-    return (
-        <div className="group_list">
-            {groupList}
-        </div>
-    )
-}
-
-function GetList(list){
-    let listItems = list.value.map((value, item) =>
-        <li key={`list-${item}`} className={`list_item ${item === 0 ? 'list_item_active' : false}`}>
-            <img className="list_image" src={`/assets/img/people/${value.picture}`} alt=""/>
-            <span>
-                {value.name + ' ' + value.surname + ': ' + value.country + ' - ' + value.group + ' - ' + value.age}
-            </span>
-        </li>
-    );
-
-    return (
-        <ul>
-            {listItems}
-        </ul>
-    )
+            this.people = list;
+        }
+        return (
+            <div className="list_container">
+                {
+                    filterByGroup
+                        ? this.generateGroupLists()
+                        : this.getList()
+                }
+            </div>
+        )
+    }
 }
