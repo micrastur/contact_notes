@@ -5,8 +5,8 @@ import update from 'react-addons-update';
 import {contacts} from "./data";
 
 import CreateList from "./components/list";
-import {SearchBar} from "./components/search";
-import {Filter} from "./components/filter";
+import SearchBar from "./components/search";
+import Filter from "./components/filter";
 
 import "../css/common.css";
 
@@ -25,12 +25,14 @@ class App extends React.Component {
         super();
         this.state = {
             search: '',
-            people: [],
+            people: contacts,
             filter: {
                 method: ['alphabet'],
                 visibility: false
             },
-
+            list: {
+                active: null
+            }
         };
         this.handleState = this.handleState.bind(this);
         this.selectSortType = this.selectSortType.bind(this);
@@ -57,12 +59,12 @@ class App extends React.Component {
 
     getData(search){
         this.people = contacts;
-        let searchString = search.replace( /\s+/g, ' ');
+        let searchString = search.toLowerCase().replace( /\s+/g, ' ');
         if(searchString){
             this.people = [];
             for (let key of contacts) {
                 let fullName = (key.name + ' ' + key.surname).toLowerCase();
-                fullName.slice(0, searchString.length) === searchString.toLowerCase()
+                fullName.slice(0, searchString.length) === searchString
                     ? this.people.push(key)
                     : false;
             }
@@ -77,14 +79,21 @@ class App extends React.Component {
 
     generateStateObj(jobj, keys, value){
         let keysAmount = keys.length - 1;
+        console.log(keys)
         for(let i = 0; i < keysAmount; ++i){
             let currentKey = keys[i];
             if(!(currentKey in jobj)){
                 jobj[currentKey] = {}
             }
+            console.log('step ' + i);
+
+
             jobj = jobj[currentKey];
+
         }
+
         jobj[keys[keysAmount]] = {$set: value};
+
     }
 
     handleState(element, value) {
@@ -95,7 +104,11 @@ class App extends React.Component {
             this.generateStateObj(obj, keys, value);
             newState = obj;
         }
+
+
+
         this.setState(update(this.state, newState));
+
     }
 
     selectSortType(e){
@@ -182,7 +195,7 @@ class App extends React.Component {
                 </header>
                 <div className="main">
                     <div className="container">
-                        <CreateList people={this.state.people} method={this.state.filter.method}/>
+                        <CreateList item={this.state.list.active} people={this.state.people} method={this.state.filter.method}/>
                     </div>
                 </div>
             </div>
