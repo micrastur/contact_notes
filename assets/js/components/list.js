@@ -4,6 +4,16 @@ import "../../css/list.css"
 export default class CreateList extends React.Component {
     constructor(props){
         super(props);
+        this.listInfo = [
+            {
+                title: 'Personal Information',
+                labels: ['Name', 'Surname', 'Birth Date', 'Age', 'Gender']
+            },
+            {
+                title: 'Contacts',
+                labels: ['Address', 'Country', 'E-mail', 'Phone']
+            }
+        ]
     }
 
     generateGroupLists(){
@@ -21,32 +31,90 @@ export default class CreateList extends React.Component {
     }
 
     activateItem(e){
-        let targetElement = e.target.tagName.toLowerCase() === 'li' ? e.target : e.target.parentElement,
+        let targetElement = e.target.tagName.toLowerCase() === 'li' ? e.target : e.target.closest('li'),
             currentTarget = e.currentTarget,
             activeClass = 'list_item-active',
             activeListElement = document.getElementsByClassName(activeClass)[0];
 
-        if(targetElement !== currentTarget && activeListElement){
-            activeListElement.classList.remove(activeClass);
+        if(targetElement !== currentTarget){
+            activeListElement ? activeListElement.classList.remove(activeClass) : false;
             targetElement.classList.add(activeClass);
         }
+    }
+
+    listHead(info){
+        console.log();
+        return (
+            <div className="list_item_head">
+                <img className="list_image" src={`/contact_notes/assets/img/people/${info.picture}`} alt=""/>
+                <span className="list_title">
+                    {info.name + ' ' + info.surname}
+                </span>
+            </div>
+        )
+    }
+
+    listBody(info){
+        let labelList = (labels) => {
+                let lists = labels.map((name, item) => {
+                    return (
+                        <p key={`label_${item}`}>
+                            <span className="label_name">{`${name}:`}</span>
+                            {info[name.toLowerCase().split(/\s+|-/).join('_')]}
+                        </p>
+                    )
+                });
+                return (
+                    <div className="label_wrap">
+                        {lists}
+                    </div>
+                )
+            },
+            bodyInfo = this.listInfo.map((value, item) => {
+            let title = value.title,
+                labels = value.labels;
+
+            return (
+                <div className="item_info_type" key={`info_type-${item}`}>
+                    <h2 className="info_type_title">{title}</h2>
+                    {labelList(labels)}
+                </div>
+            )
+        });
+        return (
+            <div className="list_item_body">
+                <div className="cf">
+                    <div className="item_info">
+                        <img className="item_image" src={`/contact_notes/assets/img/people/${info.picture}`} alt=""/>
+                    </div>
+                    <div className="item_info personal_info cf">
+                        {bodyInfo}
+                    </div>
+                </div>
+                <div className="item_info_detail">
+                    <h2 className="info_type_title">About person</h2>
+                    <p>
+                        {info.about}
+                    </p>
+                </div>
+            </div>
+        )
     }
 
     getList(list, groupItem){
         let currentList = list ? list : this.props.people,
             listItems = currentList.map((value, item) => {
                 let curItem = groupItem ? groupItem : item;
-                return <li key={`list-${item}`} className={'list_item ' + (curItem === 0 ? 'list_item-active' : false)}>
-                        <img className="list_image" src={`/contact_notes/assets/img/people/${value.picture}`} alt=""/>
-                    <span>
-                        {value.name + ' ' + value.surname + ': ' + value.country + ' - ' + value.group + ' - ' + value.age}
-                    </span>
+                return (
+                    <li key={`list-${item}`} className={'list_item ' + (curItem === 0 ? 'list_item-active' : false)}>
+                        {this.listHead(value)}
+                        {this.listBody(value)}
                     </li>
-                }
+                )
+            }
         );
 
         return (
-
             <ul onClick={this.activateItem}>
                 {listItems}
             </ul>
