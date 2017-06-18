@@ -9601,11 +9601,11 @@ function CreateList(props) {
     return _react2.default.createElement(
         'div',
         { className: 'list_container' },
-        filterByGroup ? _react2.default.createElement(GenerateGroupLists, { value: list }) : _react2.default.createElement(GetList, { value: people })
+        filterByGroup ? _react2.default.createElement(GenerateGroupLists, { value: list, activeItem: props.activeItem }) : _react2.default.createElement(GetList, { value: people, activeItem: props.activeItem })
     );
 }
 
-function GenerateGroupLists(list) {
+function GenerateGroupLists(list, item) {
     var groupList = list.value.map(function (value, item) {
         return _react2.default.createElement(
             'div',
@@ -22531,8 +22531,10 @@ var App = function (_React$Component) {
             filter: {
                 method: ['alphabet'],
                 visibility: false
+            },
+            list: {
+                active: null
             }
-
         };
         _this.handleState = _this.handleState.bind(_this);
         _this.selectSortType = _this.selectSortType.bind(_this);
@@ -22756,7 +22758,7 @@ var App = function (_React$Component) {
                     _react2.default.createElement(
                         'div',
                         { className: 'container' },
-                        _react2.default.createElement(_list2.default, { people: this.state.people, method: this.state.filter.method })
+                        _react2.default.createElement(_list2.default, { activeItem: this.state.list.active, people: this.state.people, method: this.state.filter.method })
                     )
                 )
             );

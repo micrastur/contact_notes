@@ -30,7 +30,9 @@ class App extends React.Component {
                 method: ['alphabet'],
                 visibility: false
             },
-
+            list: {
+                active: null
+            }
         };
         this.handleState = this.handleState.bind(this);
         this.selectSortType = this.selectSortType.bind(this);
@@ -182,7 +184,7 @@ class App extends React.Component {
                 </header>
                 <div className="main">
                     <div className="container">
-                        <CreateList people={this.state.people} method={this.state.filter.method}/>
+                        <CreateList activeItem={this.state.list.active} people={this.state.people} method={this.state.filter.method}/>
                     </div>
                 </div>
             </div>

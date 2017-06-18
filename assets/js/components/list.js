@@ -19,8 +19,8 @@ export default function CreateList(props) {
         <div className="list_container">
             {
                 filterByGroup
-                    ? (<GenerateGroupLists value={list} />)
-                    : (<GetList value={people} />)
+                    ? (<GenerateGroupLists value={list} activeItem={props.activeItem}/>)
+                    : (<GetList value={people} activeItem={props.activeItem} />)
             }
         </div>
     )
@@ -28,7 +28,7 @@ export default function CreateList(props) {
 
 }
 
-function GenerateGroupLists(list){
+function GenerateGroupLists(list, item){
     let groupList = list.value.map((value, item) =>
         <div className="group_item" key={value[0].group}>
             <h2 className="group_heading">{value[0].group}</h2>
