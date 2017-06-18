@@ -14,7 +14,9 @@
     width: 425px;
 }
 
-.filter_category { margin-top: 10px; }
+.filter_category {
+    margin: 10px -5px 0;
+}
 
 .filter_category span { margin-right: 15px; }
 
@@ -22,6 +24,7 @@
     display: inline-block;
     padding: 2px 8px 2px 2px;
     border-radius: 5px;
+    margin: 0 5px;
 }
 
 .filter_item-active {

@@ -5,8 +5,8 @@ import update from 'react-addons-update';
 import {contacts} from "./data";
 
 import CreateList from "./components/list";
-import {SearchBar} from "./components/search";
-import {Filter} from "./components/filter";
+import SearchBar from "./components/search";
+import Filter from "./components/filter";
 
 import "../css/common.css";
 
@@ -23,9 +23,46 @@ const Header = (props) => {
 class App extends React.Component {
     constructor() {
         super();
+        this.filterInfo = {
+            major: {
+                type: ['alphabet', 'group'],
+                getActiveTypes: function(info){
+                    let selectedTypeLength = [],
+                        currentMethods = info.currentMethods,
+                        order = info.order,
+                        clickedMethod = info.clickedMethod;
+
+                    for(let item in this.type){
+                        currentMethods.indexOf(this.type[item]) !== -1 ? selectedTypeLength.push(this.type[item]) : false;
+                    }
+
+                    currentMethods[order] =
+                    currentMethods.indexOf(clickedMethod) === -1
+                    || (selectedTypeLength.length === 1 && selectedTypeLength[0] === clickedMethod)
+                        ? clickedMethod
+                        : '';
+
+                    return currentMethods;
+                }
+            },
+            minor: {
+                type: ['country', 'age'],
+                order: 2,
+                getActiveTypes: function(info){
+                    let currentMethods = info.currentMethods,
+                        clickedMethod = info.clickedMethod;
+
+                    currentMethods[info.order] = currentMethods.indexOf(clickedMethod) === -1
+                        ? clickedMethod
+                        : '';
+
+                    return currentMethods;
+                }
+            }
+        };
         this.state = {
             search: '',
-            people: [],
+            people: contacts,
             filter: {
                 method: ['alphabet'],
                 visibility: false
@@ -41,19 +78,15 @@ class App extends React.Component {
 
     filterByMethods(actualMethods){
         let currentMethods = actualMethods ? actualMethods : this.state.filter.method,
-            addFilter = currentMethods.indexOf('age') !== -1
-                ? 'age'
-                : currentMethods.indexOf('country') !== -1
-                ? 'country'
-                : false;
+            addFilter = currentMethods[2];
 
         this.people.sort(function(prev, next){
             let prevFullName = prev.name + ' ' + prev.surname,
                 nextFullName = next.name + ' ' + next.surname;
 
-            return (currentMethods.indexOf('group') !== -1 ? (prev.group>next.group) - (next.group>prev.group) : false)
-                || (currentMethods.indexOf(addFilter) !== -1 ? (prev[addFilter]>next[addFilter]) - (next[addFilter]>prev[addFilter]) : false)
-                || (currentMethods.indexOf('alphabet') !== -1 ? (prevFullName>nextFullName) - (nextFullName>prevFullName) : false);
+            return (currentMethods[1] ? (prev.group>next.group) - (next.group>prev.group) : false)
+                || (addFilter ? (prev[addFilter]>next[addFilter]) - (next[addFilter]>prev[addFilter]) : false)
+                || (currentMethods[0] ? (prevFullName>nextFullName) - (nextFullName>prevFullName) : false);
         })
     }
 
@@ -87,6 +120,7 @@ class App extends React.Component {
             jobj = jobj[currentKey];
         }
         jobj[keys[keysAmount]] = {$set: value};
+
     }
 
     handleState(element, value) {
@@ -97,69 +131,54 @@ class App extends React.Component {
             this.generateStateObj(obj, keys, value);
             newState = obj;
         }
+
+
+
         this.setState(update(this.state, newState));
+
     }
 
-    selectSortType(e){
-        e.stopPropagation();
-        e.preventDefault();
-        let [targetElement, currentTarget] = [e.target, e.currentTarget];
+    selectSortType(element){
+        let filterInfo = this.filterInfo,
+            filterElem = element.getAttribute("data-type")
+                ? element
+                : element.parentElement,
+            [filterType, activeItem] = [filterElem.dataset.type, 'filter_item-active'],
+            currentSortMethods,
+            methodElems = element.closest('label').parentElement.children;
 
-        if(targetElement !== currentTarget){
-            let filterElem = targetElement.getAttribute("data-type")
-                    ? targetElement
-                    : targetElement.parentElement,
-                [filterType, filterStatus, activeItem] = [filterElem.dataset.type, filterElem.dataset.status, 'filter_item-active'],
-                activeAddElem = document.querySelectorAll('.filter_item-active[data-status="additional"]')[0],
-                currentSortMethods = [].concat(this.state.filter.method),
-                activatingItem = {
-                    main: function(){
-
-                        currentSortMethods.indexOf(filterType) !== -1
-                            ? currentSortMethods.splice(currentSortMethods.indexOf(filterType), 1)
-                            : currentSortMethods.push(filterType);
-
-                        filterElem.classList.contains(activeItem)
-                            ? filterElem.classList.remove(activeItem)
-                            : filterElem.classList.add(activeItem);
-
-                    },
-                    additional: function(){
-                        let typeElems = document.querySelectorAll(`[data-status='${filterStatus}']`),
-                            typeElemsValue = [];
-
-                        for(let key of typeElems){
-                            key.dataset.type !== filterType ? typeElemsValue.push(key.dataset.type) : false;
-                        }
-
-                        for(let key of typeElemsValue){
-                            if(currentSortMethods.indexOf(key) !== -1){
-                                currentSortMethods.splice(currentSortMethods.indexOf(key), 1)
-                            }
-                        }
-
-                        activeAddElem === filterElem
-                            ?  currentSortMethods.splice(currentSortMethods.indexOf(filterType), 1)
-                            :  currentSortMethods.push(filterType);
-
-                        activeAddElem ? activeAddElem.classList.remove(activeItem) : false;
-
-                        filterElem === activeAddElem
-                            ? filterElem.classList.remove(activeItem)
-                            : filterElem.classList.add(activeItem);
-                    }
+        for(let key in filterInfo){
+            let methodsOption = filterInfo[key],
+                selectedTypeIndex = methodsOption.type.indexOf(filterType),
+                info = {
+                    clickedMethod: filterType,
+                    currentMethods: [].concat(this.state.filter.method),
+                    order: methodsOption.order ? methodsOption.order : selectedTypeIndex
                 };
 
-
-            activatingItem[filterStatus].call(this);
-            this.filterByMethods(currentSortMethods);
-            this.handleState(null, {
-                filter: {method: {$set: currentSortMethods}},
-                people: {$set: this.people}
-            });
-
-
+            if(selectedTypeIndex !== -1){
+                currentSortMethods = methodsOption.getActiveTypes.call(methodsOption, info);
+            }
         }
+
+        for(let element of methodElems){
+            element.classList.remove(activeItem);
+        }
+        for(let item of currentSortMethods){
+            for(let element of methodElems){
+                if(element.dataset.type === item){
+                    element.classList.add(activeItem)
+                }
+            }
+        }
+
+        console.log(currentSortMethods);
+
+        this.filterByMethods(currentSortMethods);
+        this.handleState(null, {
+            filter: {method: {$set: currentSortMethods}},
+            people: {$set: this.people}
+        });
     }
 
     componentDidMount() {
@@ -184,7 +203,7 @@ class App extends React.Component {
                 </header>
                 <div className="main">
                     <div className="container">
-                        <CreateList activeItem={this.state.list.active} people={this.state.people} method={this.state.filter.method}/>
+                        <CreateList item={this.state.list.active} people={this.state.people} method={this.state.filter.method}/>
                     </div>
                 </div>
             </div>

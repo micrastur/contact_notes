@@ -1,7 +1,7 @@
 import React from 'react';
 import "../../css/filter.css";
 
-export const Filter = (props) => {
+export default function Filter(props){
     return (
         <div className="filter float-l">
             <div className="filter_btn"
@@ -11,17 +11,17 @@ export const Filter = (props) => {
             </div>
             <div className={"filter_type " + (props.value ? "active" : "hidden")}>
                 <h3>Sort By:</h3>
-                <div className="filter_category" onClick={(e) => props.onUserClick.sort(e)}>
-                    <label className="filter_item filter_alphabet filter_item-active" data-state-category="filter-method" data-status="main" data-type="alphabet">
+                <div className="filter_category" onClick={(e) => {e.target !== e.currentTarget ? props.onUserClick.sort(e.target) : false}}>
+                    <label className="filter_item filter_alphabet filter_item-active" data-state-category="filter-method" data-type="alphabet">
                         <i className="icon fa fa-sort-alpha-asc" aria-hidden="true"></i> Alphabet
                     </label>
-                    <label className="filter_item filter_group"  data-state-category="filter-method" data-status="main" data-type="group">
+                    <label className="filter_item filter_group"  data-state-category="filter-method" data-type="group">
                         <i className="icon fa fa-users" aria-hidden="true"></i> Group
                     </label>
-                    <label className="filter_item filter_age"  data-state-category="filter-method" data-status="additional" data-type="age">
+                    <label className="filter_item filter_age"  data-state-category="filter-method" data-type="age">
                         <i className="icon fa fa-sort-numeric-asc" aria-hidden="true"></i> Age
                     </label>
-                    <label className="filter_item filter_country"  data-state-category="filter-method" data-status="additional" data-type="country">
+                    <label className="filter_item filter_country"  data-state-category="filter-method" data-type="country">
                         <i className="icon fa fa fa-globe" aria-hidden="true"></i> Country
                     </label>
                 </div>

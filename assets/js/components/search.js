@@ -1,7 +1,7 @@
 import React from 'react';
 import "../../css/search.css";
 
-export const SearchBar = (props) => {
+export default function SearchBar(props){
     let searchText = null;
     return (
         <div className="search float-l">
