@@ -37,10 +37,10 @@ class App extends React.Component {
                     }
 
                     currentMethods[order] =
-                    currentMethods.indexOf(clickedMethod) === -1
-                    || (selectedTypeLength.length === 1 && selectedTypeLength[0] === clickedMethod)
-                        ? clickedMethod
-                        : '';
+                        currentMethods.indexOf(clickedMethod) === -1
+                        || (selectedTypeLength.length === 1 && selectedTypeLength[0] === clickedMethod)
+                            ? clickedMethod
+                            : '';
 
                     return currentMethods;
                 }
@@ -92,12 +92,13 @@ class App extends React.Component {
 
     getData(search){
         this.people = contacts;
-        let searchString = search.replace( /\s+/g, ' ');
+        let searchString = search;
         if(searchString){
             this.people = [];
             for (let key of contacts) {
                 let fullName = (key.name + ' ' + key.surname).toLowerCase();
                 fullName.slice(0, searchString.length) === searchString.toLowerCase()
+                || key.group.slice(0, searchString.length) === searchString.toLowerCase()
                     ? this.people.push(key)
                     : false;
             }
@@ -165,14 +166,12 @@ class App extends React.Component {
             element.classList.remove(activeItem);
         }
         for(let item of currentSortMethods){
-            for(let element of methodElems){
-                if(element.dataset.type === item){
-                    element.classList.add(activeItem)
+            for(let itemElement of methodElems){
+                if(itemElement.dataset.type === item){
+                    itemElement.classList.add(activeItem)
                 }
             }
         }
-
-        console.log(currentSortMethods);
 
         this.filterByMethods(currentSortMethods);
         this.handleState(null, {
