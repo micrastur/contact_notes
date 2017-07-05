@@ -6,10 +6,10 @@ export default function SearchBar(props){
     return (
         <div className="search float-l">
             <label>
-                Search:
                 <input type="text"
                        name="search"
                        id="search"
+                       maxLength="25"
                        className="search__input"
                        data-state-category="search"
                        ref={input => (searchText = input)}
