@@ -5,13 +5,15 @@
 
 .filter_type {
     background-color: #fff;
-    border: 2px solid #e8dbbd;
-    border-radius: 5px;
-    padding: 10px;
+    border: 2px solid #276d71;
+    border-radius: 60px;
+    box-shadow: 0 0 10px #012b40;
+    padding: 20px 35px 20px 35px;
     position: absolute;
     top: 130%;
     right: 0;
-    width: 425px;
+    width: 545px;
+    z-index: 5;
 }
 
 .filter_category {
@@ -21,6 +23,7 @@
 .filter_category span { margin-right: 15px; }
 
 .filter_item {
+    color: #5c7273;
     display: inline-block;
     padding: 2px 8px 2px 2px;
     border-radius: 5px;
@@ -29,11 +32,13 @@
 
 .filter_item-active {
     color: #fff;
-    background-color: #ffca54;
+    background-color: #276d71;
+    padding: 7px 20px 7px 10px;
+    border-radius: 32px;
 }
 
 .filter_item-active .icon {
-    color: #ffca54;
+    color: #276d71;
     background-color: #fff;
 }
 
