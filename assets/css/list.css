@@ -8,11 +8,9 @@
 }
 
 .list_item:nth-child(odd) .list_title {
-    background-color: #6ed4b2;
-    color: #164e3c;
+    background-color: #e0e0da;
+    color: #276d71;
 }
-
-.list_item_body { display: none; }
 
 .list_item.list_item-active .list_title {
     background-color: #b8e4e8;
@@ -69,19 +67,81 @@
 }
 
 .group_item {
-    border: 5px solid #c1b28e;
-    background-color: #c1b28e;
     border-radius: 10px;
     margin-bottom: 30px;
 }
 
 .group_heading {
-    background-color: #c1b28e;
     padding: 5px 20px 10px;
     text-transform: capitalize;
     font-weight: 400;
-    color: #fffbf2;
+    color: #e4f7f1;
 }
+
+
+
+
+/*----------coworkers-group------------*/
+
+.group_coworkers {
+    border: 5px solid #90c7b6;
+    background-color: #90c7b6;
+}
+
+.group_coworkers .group_heading {
+    color: #e4f7f1;
+}
+
+/*-------------------------------------*/
+
+
+
+
+/*-----------family-group--------------*/
+
+.group_family {
+    border: 5px solid #c79090;
+    background-color: #c79090;
+}
+
+.group_family .group_heading {
+    color: #fdeeee;
+}
+
+/*-------------------------------------*/
+
+
+
+
+/*----------friends-group--------------*/
+
+.group_friends {
+    border: 5px solid #c7b190;
+    background-color: #c7b190;
+}
+
+.group_friends .group_heading {
+    color: #f7eee1;
+}
+
+/*-------------------------------------*/
+
+
+
+
+/*---------schoolmates-group-------------*/
+
+.group_schoolmates {
+    border: 5px solid #b9c790;
+    background-color: #b9c790;
+}
+
+.group_schoolmates .group_heading {
+    color: #f1f7e1;
+}
+
+/*-------------------------------------*/
+
 
 .group_item ul {
     padding: 8px 15px 8px 22px;
@@ -101,7 +161,7 @@
 .info_type_title {
     font-size: 20px;
     margin-bottom: 15px;
-    color: #387479;
+    color: #698184;
 }
 
 .item_info_detail {
