@@ -11,7 +11,7 @@ module.exports = {
     entry: './js/app',
     output: {
         path: __dirname + '/source/',
-        publicPath: '/',
+        publicPath: '/source/',
         filename: 'js/[name].js',
         library: '[name]'
     },
@@ -29,12 +29,12 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                loader: extractTextPlugin.extract({use: 'css-loader?resolve url' })
+                loader: extractTextPlugin.extract({use: 'css-loader?resolve url'})
             },
             {
                 test: /\.(jpg|jpeg|gif|png|woff|woff2|eot|ttf|svg)(\?.*$|$)/,
                 include: path.resolve(__dirname, 'node_modules'),
-                loader: 'file-loader?name=[1].[ext]&regExp=node_modules(.*)'
+                loader: 'file-loader?name=[1]&regExp=node_modules(.*)'
             },
             {
                 test: /\.(jpg|jpeg|gif|png|woff|woff2|eot|ttf|svg)(\?.*$|$)/,
