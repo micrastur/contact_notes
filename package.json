@@ -1,7 +1,6 @@
 {
   "name": "contact_notes",
   "version": "1.0.0",
-  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -27,14 +26,21 @@
     "extract-text-webpack-plugin": "^2.1.0",
     "file-loader": "^0.11.1",
     "font-awesome": "^4.7.0",
+    "fs": "0.0.1-security",
+    "mysql": "^2.14.1",
+    "net": "^1.0.2",
     "react": "^15.4.2",
     "react-addons-update": "^15.5.2",
     "react-dom": "^15.4.2",
     "style-loader": "^0.16.1",
-    "webpack": "^2.2.1"
+    "tls": "0.0.1",
+    "url-loader": "^0.5.9",
+    "webpack": "^2.2.1",
+    "webpack-node-externals": "^1.6.0"
   },
   "dependencies": {
-    "mongodb": "^2.2.22"
+    "mongodb": "^2.2.22",
+    "prop-types": "^15.5.10"
   },
   "description": ""
 }
