@@ -1,18 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import update from 'react-addons-update';
-
 import {contacts} from "./data";
-
 import CreateList from "./components/list";
 import SearchBar from "./components/search";
 import Filter from "./components/filter";
-
 import "../css/common.css";
-
-
+//import contacts from "./db";
 
 const Header = (props) => {
+
+
     return (
         <div className="search_section float-r cf">
             {props.children}
@@ -27,11 +25,7 @@ class App extends React.Component {
             major: {
                 type: ['alphabet', 'group'],
                 getActiveTypes: function(info){
-                    let selectedTypeLength = [],
-                        currentMethods = info.currentMethods,
-                        order = info.order,
-                        clickedMethod = info.clickedMethod;
-
+                    let selectedTypeLength = [], {currentMethods} = info, {order} = info, {clickedMethod} = info;
                     for(let item in this.type){
                         currentMethods.indexOf(this.type[item]) !== -1 ? selectedTypeLength.push(this.type[item]) : false;
                     }
@@ -49,8 +43,7 @@ class App extends React.Component {
                 type: ['country', 'age'],
                 order: 2,
                 getActiveTypes: function(info){
-                    let currentMethods = info.currentMethods,
-                        clickedMethod = info.clickedMethod;
+                    let {currentMethods} = info, {clickedMethod} = info;
 
                     currentMethods[info.order] = currentMethods.indexOf(clickedMethod) === -1
                         ? clickedMethod
@@ -68,7 +61,7 @@ class App extends React.Component {
                 visibility: false
             },
             list: {
-                active: null
+                activeId: null
             }
         };
         this.handleState = this.handleState.bind(this);
@@ -132,11 +125,7 @@ class App extends React.Component {
             this.generateStateObj(obj, keys, value);
             newState = obj;
         }
-
-
-
         this.setState(update(this.state, newState));
-
     }
 
     selectSortType(element){
@@ -162,8 +151,8 @@ class App extends React.Component {
             }
         }
 
-        for(let element of methodElems){
-            element.classList.remove(activeItem);
+        for(let btn of methodElems){
+            btn.classList.remove(activeItem);
         }
         for(let item of currentSortMethods){
             for(let itemElement of methodElems){
@@ -188,7 +177,6 @@ class App extends React.Component {
         });
     }
 
-
     render(){
         return (
             <div>
@@ -202,7 +190,7 @@ class App extends React.Component {
                 </header>
                 <div className="main">
                     <div className="container">
-                        <CreateList item={this.state.list.active} people={this.state.people} method={this.state.filter.method}/>
+                        <CreateList onListClick = {this.handleState} activeItem={this.state.list.activeId} people={this.state.people} search={this.state.search} method={this.state.filter.method}/>
                     </div>
                 </div>
             </div>
@@ -217,4 +205,3 @@ class App extends React.Component {
         document.getElementById('root')
     );
 }
-
