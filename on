@@ -1,0 +1,62 @@
+[33mcommit f61a4ba5c0b2a3a0e717ce6203cbdd920520b3b5[m
+Author: micrastur <marina.lisovik@gmail.com>
+Date:   Mon Sep 4 08:18:17 2017 +0300
+
+    Revert "Update index.html"
+    
+    This reverts commit c8d0883486aa5b47367fcb5c71a24f572f5c7670.
+
+[33mcommit a90342a73dd590fa3492dc5fe84ab334cc3bb30f[m
+Merge: 8daba69 b3e6537
+Author: micrastur <marina.lisovik@gmail.com>
+Date:   Sun Sep 3 23:35:51 2017 +0300
+
+    Modified js files
+
+[33mcommit 8daba69ca892ffb38fb243cbc69b7f37daf125ea[m
+Author: micrastur <marina.lisovik@gmail.com>
+Date:   Sun Sep 3 23:31:06 2017 +0300
+
+    Updated project
+
+[33mcommit b3e653733538116e38dfc6f54f8f3ad8fbab91fb[m
+Author: micrastur <marina.lisovik@gmail.com>
+Date:   Fri Sep 1 12:35:21 2017 +0300
+
+    Update main.css
+
+[33mcommit a6fcbb23563bdd216a915a917fb5dac72dd6eacb[m
+Author: micrastur <marina.lisovik@gmail.com>
+Date:   Fri Sep 1 12:04:40 2017 +0300
+
+    Update main.js
+
+[33mcommit d74f6600c72f66500e7c9b41382827a4009ea5aa[m
+Author: micrastur <marina.lisovik@gmail.com>
+Date:   Fri Sep 1 11:55:46 2017 +0300
+
+    Update main.js
+
+[33mcommit 96370521c689c3f67fe3eb73d2f55b2bb82ccd16[m
+Author: micrastur <marina.lisovik@gmail.com>
+Date:   Fri Sep 1 11:54:34 2017 +0300
+
+    Update list.js
+
+[33mcommit c5bead06f33d4e4959503d181b08ed84666c06d7[m
+Author: micrastur <marina.lisovik@gmail.com>
+Date:   Fri Sep 1 10:55:11 2017 +0300
+
+    Update webpack.config.js
+
+[33mcommit 2fb1bdf84364d9bfd4b0c4863828756420643f48[m
+Author: micrastur <marina.lisovik@gmail.com>
+Date:   Fri Sep 1 10:54:47 2017 +0300
+
+    Update package.json
+
+[33mcommit 414cc139af6f59896030f819245b32b044ebec64[m
+Author: micrastur <marina.lisovik@gmail.com>
+Date:   Fri Sep 1 10:52:31 2017 +0300
+
+    Update main.js
