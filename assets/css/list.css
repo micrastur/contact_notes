@@ -78,6 +78,36 @@
     color: #e4f7f1;
 }
 
+.result-empty {
+    background-color: #ddd;
+    border-radius: 50px;
+    font-size: 22px;
+    text-align: center;
+    margin: 0 auto;
+    padding: 30px 50px;
+    position: relative;
+    width: 80%;
+}
+
+.result-empty:before {
+    background: #ddd;
+    content: '';
+    display: block;
+    position: absolute;
+    width: 33px;
+    height: 45px;
+    top: -22px;
+    right: 100px;
+    transform: rotate(54deg);
+    z-index: -5;
+}
+
+.result-empty_person {
+    text-transform: capitalize;
+    font-weight: bold;
+    color: #b38e3c;
+}
+
 
 
 

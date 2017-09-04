@@ -1,9 +1,20 @@
 import React from 'react';
-import "../../css/list.css"
+import "../../css/list.css";
+import PropTypes from 'prop-types';
 
 export default class CreateList extends React.Component {
+
+    static propTypes = {
+        activeItem: PropTypes.string,
+        people: PropTypes.array,
+        search: PropTypes.string,
+        method: PropTypes.array,
+        onListClick: PropTypes.func
+    };
+
     constructor(props){
         super(props);
+        console.log(this.props);
         this.listInfo = [
             {
                 title: 'Personal Information',
@@ -13,15 +24,16 @@ export default class CreateList extends React.Component {
                 title: 'Contacts',
                 labels: ['Address', 'Country', 'E-mail', 'Phone']
             }
-        ]
+        ];
+        this.activateItem = this.activateItem.bind(this);
     }
 
     generateGroupLists(){
         let groupList = this.people.map((value, item) =>
-                <div className={`group_item` + ` group_${value[0].group}`} key={value[0].group}>
-                    <h2 className="group_heading">{value[0].group}</h2>
-                    {this.getList(value, item)}
-                </div>
+            <div className={`group_item` + ` group_${value[0].group}`} key={value[0].group} >
+                <h2 className="group_heading">{value[0].group}</h2>
+                {this.getList(value, item)}
+            </div>
         );
         return (
             <div className="group_list">
@@ -32,13 +44,11 @@ export default class CreateList extends React.Component {
 
     activateItem(e){
         let targetElement = e.target.tagName.toLowerCase() === 'li' ? e.target : e.target.closest('li'),
-            currentTarget = e.currentTarget,
-            activeClass = 'list_item-active',
-            activeListElement = document.getElementsByClassName(activeClass)[0];
+            currentTarget = e.currentTarget;
 
         if(targetElement !== currentTarget){
-            activeListElement ? activeListElement.classList.remove(activeClass) : false;
-            targetElement.classList.add(activeClass);
+            let activeListId = targetElement.id;
+            this.props.onListClick(targetElement, activeListId);
         }
     }
 
@@ -46,7 +56,7 @@ export default class CreateList extends React.Component {
         console.log();
         return (
             <div className="list_item_head">
-                <img className="list_image" src={`/contact_notes/assets/img/people/${info.picture}`} alt=""/>
+                <img className="list_image" src={`../../assets/img/people/${info.picture}`} alt=""/>
                 <span className="list_title">
                     {info.name + ' ' + info.surname}
                     <span className="list_filter">
@@ -88,7 +98,7 @@ export default class CreateList extends React.Component {
             <div className="list_item_body">
                 <div className="cf">
                     <div className="item_info">
-                        <img className="item_image" src={`/contact_notes/assets/img/people/${info.picture}`} alt=""/>
+                        <img className="item_image" src={require(`../../assets/img/people/${info.picture}`)} alt=""/>
                     </div>
                     <div className="item_info personal_info cf">
                         {bodyInfo}
@@ -106,10 +116,13 @@ export default class CreateList extends React.Component {
 
     getList(list, groupItem){
         let currentList = list ? list : this.props.people,
+            activeItem = this.props.activeItem,
             listItems = currentList.map((value, item) => {
-                    let curItem = groupItem ? groupItem : item;
+                    let curItem = groupItem ? groupItem : item,
+                        itemId = value._id,
+                        defaultOpenItem = activeItem === null  && curItem === 0 ? 'list_item-active' : '';
                     return (
-                        <li key={`list-${item}`} className={'list_item ' + (curItem === 0 ? 'list_item-active' : false)}>
+                        <li key={`list-${itemId}`} id={itemId} className={'list_item ' + (activeItem === itemId ? 'list_item-active' : defaultOpenItem)} data-state-category="list-activeId">
                             {this.listHead(value)}
                             {this.listBody(value)}
                         </li>
@@ -123,13 +136,23 @@ export default class CreateList extends React.Component {
             </ul>
         )
     }
+    getEmptyResult(searchedPeople){
+        return (
+            <div className="result-empty">
+                <p>
+                    The person <strong className="result-empty_person">{searchedPeople}</strong> is absent in your contact book!
+                </p>
+            </div>
+        )
+    }
 
     render(){
         let [data, groups, list] = [this.props, [], []],
-            filterByGroup = data.method.indexOf('group') !== -1;
+            filterByGroup = data.method.indexOf('group') !== -1,
+            foundedPeopleList = data.people;
 
         if(filterByGroup){
-            for(let key of data.people) {
+            for(let key of foundedPeopleList) {
                 let currentGroup = key.group,
                     groupIndex = groups.indexOf(currentGroup);
 
@@ -142,9 +165,11 @@ export default class CreateList extends React.Component {
         return (
             <div className="list_container">
                 {
-                    filterByGroup
-                        ? this.generateGroupLists()
-                        : this.getList()
+                    foundedPeopleList.length > 0
+                        ? filterByGroup
+                            ? this.generateGroupLists()
+                            : this.getList()
+                        : this.getEmptyResult(this.props.search)
                 }
             </div>
         )
