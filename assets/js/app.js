@@ -68,7 +68,7 @@ class App extends React.Component {
                 visibility: false
             },
             list: {
-                active: null
+                activeId: null
             }
         };
         this.handleState = this.handleState.bind(this);
@@ -132,11 +132,7 @@ class App extends React.Component {
             this.generateStateObj(obj, keys, value);
             newState = obj;
         }
-
-
-
         this.setState(update(this.state, newState));
-
     }
 
     selectSortType(element){
@@ -188,7 +184,6 @@ class App extends React.Component {
         });
     }
 
-
     render(){
         return (
             <div>
@@ -202,7 +197,7 @@ class App extends React.Component {
                 </header>
                 <div className="main">
                     <div className="container">
-                        <CreateList item={this.state.list.active} people={this.state.people} search={this.state.search}                                    method={this.state.filter.method}/>
+                        <CreateList onListClick={this.handleState} activeItem={this.state.list.activeId} people={this.state.people} search={this.state.search} method={this.state.filter.method}/>
                     </div>
                 </div>
             </div>

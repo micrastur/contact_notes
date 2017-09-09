@@ -30,10 +30,10 @@ export default class CreateList extends React.Component {
 
     generateGroupLists(){
         let groupList = this.people.map((value, item) =>
-            <div className={`group_item` + ` group_${value[0].group}`} key={value[0].group} >
-                <h2 className="group_heading">{value[0].group}</h2>
-                {this.getList(value, item)}
-            </div>
+                <div className={`group_item` + ` group_${value[0].group}`} key={value[0].group} >
+                    <h2 className="group_heading">{value[0].group}</h2>
+                    {this.getList(value, item)}
+                </div>
         );
         return (
             <div className="group_list">
@@ -56,7 +56,7 @@ export default class CreateList extends React.Component {
         console.log();
         return (
             <div className="list_item_head">
-                <img className="list_image" src={`../../assets/img/people/${info.picture}`} alt=""/>
+                <img className="list_image" src={require(`../../img/people/${info.picture}`)} alt=""/>
                 <span className="list_title">
                     {info.name + ' ' + info.surname}
                     <span className="list_filter">
@@ -98,7 +98,7 @@ export default class CreateList extends React.Component {
             <div className="list_item_body">
                 <div className="cf">
                     <div className="item_info">
-                        <img className="item_image" src={require(`../../assets/img/people/${info.picture}`)} alt=""/>
+                        <img className="item_image" src={require(`../../img/people/${info.picture}`)} alt=""/>
                     </div>
                     <div className="item_info personal_info cf">
                         {bodyInfo}
@@ -166,10 +166,10 @@ export default class CreateList extends React.Component {
             <div className="list_container">
                 {
                     foundedPeopleList.length > 0
-                        ? filterByGroup
-                            ? this.generateGroupLists()
-                            : this.getList()
-                        : this.getEmptyResult(this.props.search)
+                    ? filterByGroup
+                        ? this.generateGroupLists()
+                        : this.getList()
+                    : this.getEmptyResult(this.props.search)
                 }
             </div>
         )
